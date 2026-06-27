@@ -31,15 +31,18 @@ def create_app(config_name='default'):
         doc='/docs'
     )
 
-    from servilocal.auth.routes import ns as auth_ns
-    from servilocal.users.routes import ns as users_ns
-    from servilocal.providers.routes import ns as providers_ns
-    from servilocal.services.routes import ns as services_ns
-    from servilocal.categories.routes import ns as categories_ns
-    from servilocal.bookings.routes import ns as bookings_ns
-    from servilocal.reviews.routes import ns as reviews_ns
-    from servilocal.gallery.routes import ns as gallery_ns
-    from servilocal.search.routes import ns as search_ns
+    from fixit.auth.routes import ns as auth_ns
+    from fixit.users.routes import ns as users_ns
+    from fixit.providers.routes import ns as providers_ns
+    from fixit.services.routes import ns as services_ns
+    from fixit.categories.routes import ns as categories_ns
+    from fixit.bookings.routes import ns as bookings_ns
+    from fixit.reviews.routes import ns as reviews_ns
+    from fixit.gallery.routes import ns as gallery_ns
+    from fixit.search.routes import ns as search_ns
+    from fixit.favorites.routes import ns as favorites_ns
+    from fixit.notifications.routes import ns as notifications_ns
+    from fixit.reports.routes import ns as reports_ns
     
     api.add_namespace(auth_ns, path='/api/v1/auth')
     api.add_namespace(users_ns, path='/api/v1/users')
@@ -50,5 +53,8 @@ def create_app(config_name='default'):
     api.add_namespace(reviews_ns, path='/api/v1/reviews')
     api.add_namespace(gallery_ns, path='/api/v1/gallery')
     api.add_namespace(search_ns, path='/api/v1/search')
+    api.add_namespace(favorites_ns, path='/api/v1/favorites')
+    api.add_namespace(notifications_ns, path='/api/v1/notifications')
+    api.add_namespace(reports_ns, path='/api/v1/reports')
     
     return app

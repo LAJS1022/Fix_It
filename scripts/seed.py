@@ -2,27 +2,27 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from servilocal import create_app
+from fixit import create_app
 from database import db
-from servilocal.users.models import User
-from servilocal.categories.models import Category
+from fixit.users.models import User
+from fixit.categories.models import Category
 
 app = create_app('development')
 
 with app.app_context():
     db.create_all()
 
-    if not User.query.filter_by(email='admin@servilocal.com').first():
+    if not User.query.filter_by(email='admin@fixit.com').first():
         admin = User(
             first_name='Admin',
             last_name='ServiLocal',
-            email='admin@servilocal.com',
+            email='admin@fixit.com',
             password='admin1234',
             role='client',
             is_admin=True
         )
         admin.save()
-        print('Admin created: admin@servilocal.com / admin1234')
+        print('Admin created: admin@fixit.com / admin1234')
     else:
         print('Admin already exists')
 

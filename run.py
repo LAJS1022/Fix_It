@@ -1,5 +1,5 @@
 import os
-from servilocal import create_app
+from fixit import create_app
 from database import db
 from dotenv import load_dotenv
 

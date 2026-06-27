@@ -10,11 +10,11 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///servilocal_dev.db'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///fixit_dev.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'postgresql://user:password@localhost/servilocal_prod')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'postgresql://user:password@localhost/fixit_prod')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 config = {
