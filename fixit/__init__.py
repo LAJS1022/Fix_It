@@ -43,6 +43,7 @@ def create_app(config_name='default'):
     from fixit.favorites.routes import ns as favorites_ns
     from fixit.notifications.routes import ns as notifications_ns
     from fixit.reports.routes import ns as reports_ns
+    from fixit.admin.routes import ns as admin_ns
     
     api.add_namespace(auth_ns, path='/api/v1/auth')
     api.add_namespace(users_ns, path='/api/v1/users')
@@ -56,5 +57,6 @@ def create_app(config_name='default'):
     api.add_namespace(favorites_ns, path='/api/v1/favorites')
     api.add_namespace(notifications_ns, path='/api/v1/notifications')
     api.add_namespace(reports_ns, path='/api/v1/reports')
+    api.add_namespace(admin_ns, path='/api/v1/admin')
     
     return app
