@@ -13,7 +13,7 @@ authorizations = {
 }
 
 def create_app(config_name='default'):
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='../static', static_url_path='')
     app.config.from_object(config[config_name])
 
     db.init_app(app)
@@ -44,7 +44,7 @@ def create_app(config_name='default'):
     from fixit.notifications.routes import ns as notifications_ns
     from fixit.reports.routes import ns as reports_ns
     from fixit.admin.routes import ns as admin_ns
-    
+
     api.add_namespace(auth_ns, path='/api/v1/auth')
     api.add_namespace(users_ns, path='/api/v1/users')
     api.add_namespace(providers_ns, path='/api/v1/providers')
@@ -58,5 +58,9 @@ def create_app(config_name='default'):
     api.add_namespace(notifications_ns, path='/api/v1/notifications')
     api.add_namespace(reports_ns, path='/api/v1/reports')
     api.add_namespace(admin_ns, path='/api/v1/admin')
-    
+
+    @app.route('/')
+    def serve_index():
+        return app.send_static_file('index.html')
+
     return app

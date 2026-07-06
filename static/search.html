@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fix It - Plomeros en Mérida</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ba1a1a",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-tertiary-container": "#ffd7c9",
+                        "on-tertiary-fixed": "#380d00",
+                        "inverse-surface": "#2d3133",
+                        "tertiary-container": "#915239",
+                        "primary-fixed-dim": "#82d3de",
+                        "secondary": "#236863",
+                        "on-primary-fixed": "#001f23",
+                        "on-secondary-fixed": "#00201e",
+                        "outline": "#6f797a",
+                        "on-secondary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#743b24",
+                        "on-surface": "#191c1e",
+                        "outline-variant": "#bec8ca",
+                        "on-background": "#191c1e",
+                        "on-surface-variant": "#3e494a",
+                        "surface-container-highest": "#e0e3e5",
+                        "secondary-container": "#a9ece5",
+                        "primary": "#00535b",
+                        "on-primary-container": "#9becf7",
+                        "surface": "#f7f9fb",
+                        "surface-dim": "#d8dadc",
+                        "tertiary-fixed": "#ffdbce",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#acefe7",
+                        "surface-variant": "#e0e3e5",
+                        "inverse-primary": "#82d3de",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-bright": "#f7f9fb",
+                        "surface-container": "#eceef0",
+                        "surface-container-high": "#e6e8ea",
+                        "on-tertiary-fixed-variant": "#6f3720",
+                        "primary-fixed": "#9ff0fb",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#ffb59a",
+                        "primary-container": "#006d77",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#004f56",
+                        "secondary-fixed-dim": "#90d3cb",
+                        "on-secondary-fixed-variant": "#00504b",
+                        "on-secondary-container": "#286d67",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#006972"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter-desktop": "24px",
+                        "unit": "8px",
+                        "max-width-desktop": "1200px",
+                        "gutter-mobile": "16px",
+                        "margin-desktop": "auto",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "headline-sm": ["Montserrat"],
+                        "label-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "display-lg-mobile": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Montserrat"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Montserrat"],
+                        "headline-lg": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["11px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md">
+<!-- TopAppBar Shell -->
+<header class="bg-surface dark:bg-surface-dim shadow-[0px_4px_20px_rgba(0,109,119,0.05)] sticky top-0 z-50">
+<div class="flex justify-between items-center w-full px-gutter-desktop max-w-max-width-desktop mx-auto h-20">
+<div class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed"><a href="index.html">Fix It</a></div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 active:scale-95 transition-transform font-label-lg text-label-lg" href="#">Find Pros</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 active:scale-95 transition-transform font-label-lg text-label-lg" href="#">How it Works</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 active:scale-95 transition-transform font-label-lg text-label-lg" href="#">Become a Pro</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hidden sm:block text-on-surface-variant dark:text-outline-variant font-medium font-label-lg text-label-lg">Log In</button>
+<button class="bg-primary-container text-white px-6 py-2.5 rounded-full font-bold active:scale-95 transition-transform">Sign Up</button>
+</div>
+</div>
+</header>
+<main class="max-w-max-width-desktop mx-auto px-gutter-mobile md:px-gutter-desktop py-8 mb-20 md:mb-0">
+<!-- Results Header -->
+<div class="mb-8">
+<nav class="flex items-center gap-2 text-on-surface-variant mb-2 font-label-md text-label-md">
+<span class="hover:text-primary cursor-pointer">Mérida</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-semibold" id="breadcrumb-category">Todos los servicios</span>
+</nav>
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface" id="page-title">Profesionales cerca de Mérida, Yucatán</h1>
+<p class="text-on-surface-variant font-body-sm text-body-sm mt-1" id="expert-count">Buscando expertos...</p>
+</div>
+<!-- Filter Bar -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 mb-8 shadow-sm">
+<div class="flex flex-col lg:flex-row lg:items-center gap-6">
+<!-- Sorting & View Toggle -->
+<div class="flex items-center justify-between lg:justify-start gap-4">
+<div class="flex items-center gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant whitespace-nowrap">Ordenar por:</label>
+<select id="sort-select" class="bg-surface-container-low border-none rounded-lg text-body-sm font-medium py-2 px-4 focus:ring-2 focus:ring-primary">
+<option value="rating">Calificación</option>
+<option value="price">Precio</option>
+<option value="distance">Distancia</option>
+</select>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant hidden lg:block"></div>
+<div class="flex bg-surface-container-low p-1 rounded-lg">
+<button class="p-1.5 rounded-md bg-surface-container-lowest shadow-sm text-primary" id="view-grid">
+<span class="material-symbols-outlined block">grid_view</span>
+</button>
+<button class="p-1.5 rounded-md text-on-surface-variant hover:text-primary" id="view-list">
+<span class="material-symbols-outlined block">view_list</span>
+</button>
+</div>
+</div>
+<!-- Filters -->
+<div class="flex flex-wrap items-center gap-4 flex-1">
+<div class="flex flex-col gap-1 flex-1 min-w-[200px]">
+<div class="flex justify-between font-label-md text-label-md">
+<span>Precio máximo</span>
+<span class="text-primary font-bold" id="price-range-label">$1,000 MXN</span>
+</div>
+<input class="w-full h-1.5 bg-secondary-container rounded-lg appearance-none cursor-pointer accent-primary" id="price-range" max="1000" min="100" step="10" type="range" value="1000"/>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant">event</span>
+<button class="availability-btn bg-secondary-container text-on-secondary-container px-4 py-2 rounded-full font-label-lg text-label-lg" data-value="hoy">Hoy</button>
+<button class="availability-btn border border-outline-variant text-on-surface-variant px-4 py-2 rounded-full font-label-lg text-label-lg hover:border-primary" data-value="semana">Esta semana</button>
+</div>
+</div>
+<button class="flex items-center gap-2 text-primary font-bold px-4 py-2 hover:bg-primary/5 rounded-lg transition-colors" id="more-filters-btn">
+<span class="material-symbols-outlined">tune</span>
+<span>Más filtros</span>
+</button>
+</div>
+<div class="hidden mt-4 pt-4 border-t border-outline-variant flex flex-wrap items-center gap-6" id="more-filters-panel">
+<div class="flex flex-col gap-1 min-w-[200px]">
+<div class="flex justify-between font-label-md text-label-md">
+<span>Calificación mínima</span>
+<span class="text-primary font-bold" id="min-rating-label">Cualquiera</span>
+</div>
+<input class="w-full h-1.5 bg-secondary-container rounded-lg appearance-none cursor-pointer accent-primary" id="min-rating-range" max="5" min="0" step="0.5" type="range" value="0"/>
+</div>
+<div class="flex flex-col gap-1 min-w-[200px]">
+<div class="flex justify-between font-label-md text-label-md">
+<span>Radio de búsqueda</span>
+<span class="text-primary font-bold" id="radius-label">10 km</span>
+</div>
+<input class="w-full h-1.5 bg-secondary-container rounded-lg appearance-none cursor-pointer accent-primary" id="radius-range" max="50" min="1" step="1" type="range" value="10"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Provider Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="results-container"></div>
+<!-- Pagination -->
+<div class="flex items-center justify-center gap-2 mt-12 py-8">
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white font-bold">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-colors">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-colors">3</button>
+<span class="px-2">...</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-colors">8</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</main>
+<!-- Footer Shell -->
+<footer class="bg-surface-container-lowest dark:bg-inverse-surface border-t border-outline-variant dark:border-outline">
+<div class="w-full py-12 px-gutter-desktop max-w-max-width-desktop mx-auto flex flex-col md:flex-row justify-between items-start gap-8">
+<div class="max-w-[300px]">
+<div class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed mb-4">Fix It</div>
+<p class="text-on-surface-variant dark:text-outline-variant font-body-sm text-body-sm">
+                    © 2024 Fix It. Trusted Utility for Your Home. Mérida's leading network for local service professionals.
+                </p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-8">
+<div class="flex flex-col gap-3">
+<span class="font-label-lg text-label-lg text-on-surface dark:text-on-surface-variant">Company</span>
+<a class="text-on-surface-variant dark:text-outline-variant hover:underline hover:text-primary transition-all font-label-md text-label-md" href="#">About Us</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:underline hover:text-primary transition-all font-label-md text-label-md" href="#">Contact</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-label-lg text-label-lg text-on-surface dark:text-on-surface-variant">Support</span>
+<a class="text-on-surface-variant dark:text-outline-variant hover:underline hover:text-primary transition-all font-label-md text-label-md" href="#">Help Center</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:underline hover:text-primary transition-all font-label-md text-label-md" href="#">Safety</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-label-lg text-label-lg text-on-surface dark:text-on-surface-variant">Legal</span>
+<a class="text-on-surface-variant dark:text-outline-variant hover:underline hover:text-primary transition-all font-label-md text-label-md" href="#">Terms of Service</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:underline hover:text-primary transition-all font-label-md text-label-md" href="#">Privacy Policy</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- BottomNavBar Shell (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 md:hidden bg-surface dark:bg-surface-dim border-t border-outline-variant dark:border-outline shadow-[0px_-4px_16px_rgba(0,0,0,0.04)] rounded-t-xl">
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant active:scale-90 transition-all duration-150">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-secondary-container dark:bg-primary-container text-on-secondary-container dark:text-on-primary-container rounded-full px-4 py-1 active:scale-90 transition-all duration-150">
+<span class="material-symbols-outlined">search</span>
+<span class="font-label-sm text-label-sm">Search</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant active:scale-90 transition-all duration-150">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-sm text-label-sm">Bookings</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant active:scale-90 transition-all duration-150">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</div>
+</nav>
+<script>
+        // Micro-interaction for view toggle
+        const gridBtn = document.getElementById('view-grid');
+        const listBtn = document.getElementById('view-list');
+        const container = document.getElementById('results-container');
+
+        gridBtn.addEventListener('click', () => {
+            gridBtn.classList.add('bg-surface-container-lowest', 'shadow-sm', 'text-primary');
+            gridBtn.classList.remove('text-on-surface-variant');
+            listBtn.classList.remove('bg-surface-container-lowest', 'shadow-sm', 'text-primary');
+            listBtn.classList.add('text-on-surface-variant');
+            
+            container.classList.remove('flex', 'flex-col');
+            container.classList.add('grid', 'grid-cols-1', 'sm:grid-cols-2', 'lg:grid-cols-3', 'xl:grid-cols-4');
+            
+            // Adjust card layouts for grid
+            document.querySelectorAll('#results-container > div').forEach(card => {
+                card.classList.remove('flex', 'gap-6');
+                card.querySelector('img').parentElement.classList.remove('w-48', 'h-full');
+                card.querySelector('img').classList.remove('h-full');
+                card.querySelector('img').classList.add('h-48');
+            });
+        });
+
+        listBtn.addEventListener('click', () => {
+            listBtn.classList.add('bg-surface-container-lowest', 'shadow-sm', 'text-primary');
+            listBtn.classList.remove('text-on-surface-variant');
+            gridBtn.classList.remove('bg-surface-container-lowest', 'shadow-sm', 'text-primary');
+            gridBtn.classList.add('text-on-surface-variant');
+            
+            container.classList.remove('grid', 'grid-cols-1', 'sm:grid-cols-2', 'lg:grid-cols-3', 'xl:grid-cols-4');
+            container.classList.add('flex', 'flex-col');
+
+            // Adjust card layouts for list
+            document.querySelectorAll('#results-container > div').forEach(card => {
+                card.classList.add('flex', 'gap-6');
+                card.querySelector('img').parentElement.classList.add('w-48', 'h-full');
+                card.querySelector('img').classList.remove('h-48');
+                card.querySelector('img').classList.add('h-full');
+            });
+        });
+    </script>
+<script src="js/app.js"></script>
+</body></html>

@@ -51,9 +51,18 @@ class Provider(BaseModel):
         db.session.commit()
 
     def to_dict(self):
+        category_name = None
+        if self.services:
+            first_service = self.services[0]
+            if first_service.category:
+                category_name = first_service.category.name
+
         return {
             'id': self.id,
             'user_id': self.user_id,
+            'name': f"{self.user.first_name} {self.user.last_name}",
+            'photo_url': self.user.avatar_url,
+            'category': category_name,
             'bio': self.bio,
             'experience_years': self.experience_years,
             'verified': self.verified,
@@ -67,4 +76,3 @@ class Provider(BaseModel):
             'created_at': self.created_at.isoformat(),
             'updated_at': self.updated_at.isoformat()
         }
-    

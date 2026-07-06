@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fix It - Servicios profesionales en tu hogar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error": "#ba1a1a",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-tertiary-container": "#ffd7c9",
+                    "on-tertiary-fixed": "#380d00",
+                    "inverse-surface": "#2d3133",
+                    "tertiary-container": "#915239",
+                    "primary-fixed-dim": "#82d3de",
+                    "secondary": "#236863",
+                    "on-primary-fixed": "#001f23",
+                    "on-secondary-fixed": "#00201e",
+                    "outline": "#6f797a",
+                    "on-secondary": "#ffffff",
+                    "background": "#f7f9fb",
+                    "error-container": "#ffdad6",
+                    "tertiary": "#743b24",
+                    "on-surface": "#191c1e",
+                    "outline-variant": "#bec8ca",
+                    "on-background": "#191c1e",
+                    "on-surface-variant": "#3e494a",
+                    "surface-container-highest": "#e0e3e5",
+                    "secondary-container": "#a9ece5",
+                    "primary": "#00535b",
+                    "on-primary-container": "#9becf7",
+                    "surface": "#f7f9fb",
+                    "surface-dim": "#d8dadc",
+                    "tertiary-fixed": "#ffdbce",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed": "#acefe7",
+                    "surface-variant": "#e0e3e5",
+                    "inverse-primary": "#82d3de",
+                    "surface-container-low": "#f2f4f6",
+                    "surface-bright": "#f7f9fb",
+                    "surface-container": "#eceef0",
+                    "surface-container-high": "#e6e8ea",
+                    "on-tertiary-fixed-variant": "#6f3720",
+                    "primary-fixed": "#9ff0fb",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed-dim": "#ffb59a",
+                    "primary-container": "#006d77",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed-variant": "#004f56",
+                    "secondary-fixed-dim": "#90d3cb",
+                    "on-secondary-fixed-variant": "#00504b",
+                    "on-secondary-container": "#286d67",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "surface-tint": "#006972"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter-desktop": "24px",
+                    "unit": "8px",
+                    "max-width-desktop": "1200px",
+                    "gutter-mobile": "16px",
+                    "margin-desktop": "auto",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Inter"],
+                    "headline-sm": ["Montserrat"],
+                    "label-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "headline-lg-mobile": ["Montserrat"],
+                    "display-lg-mobile": ["Montserrat"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Montserrat"],
+                    "body-lg": ["Inter"],
+                    "display-lg": ["Montserrat"],
+                    "headline-lg": ["Montserrat"]
+            },
+            "fontSize": {
+                    "label-sm": ["11px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface-dim shadow-[0px_4px_20px_rgba(0,109,119,0.05)] sticky top-0 z-[100] w-full">
+<div class="flex justify-between items-center w-full px-gutter-desktop max-w-max-width-desktop mx-auto h-20">
+<div class="flex items-center gap-8">
+<span class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed">Fix It</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-primary dark:text-primary-fixed border-b-2 border-primary font-bold pb-1 transition-colors duration-200" href="#">Find Pros</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200" href="#">How it Works</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200" href="#">Become a Pro</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden md:block text-primary font-label-lg text-label-lg px-4 py-2 hover:bg-surface-container-low rounded-lg transition-colors">Log In</button>
+<button class="bg-primary text-on-primary font-label-lg text-label-lg px-6 py-2.5 rounded-full hover:bg-primary-container transition-all active:scale-95 shadow-sm">Sign Up</button>
+</div>
+</div>
+</header>
+<main>
+<!-- Hero Section -->
+<section class="relative bg-primary-container text-white py-16 md:py-24 overflow-hidden">
+<!-- Decorative Elements -->
+<div class="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none">
+<div class="absolute inset-0 bg-gradient-to-l from-white to-transparent"></div>
+</div>
+<div class="relative px-gutter-mobile md:px-gutter-desktop max-w-max-width-desktop mx-auto text-center md:text-left">
+<div class="grid md:grid-cols-2 gap-12 items-center">
+<div class="space-y-6">
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-primary-container leading-tight">
+                            Servicios profesionales en tu hogar
+                        </h1>
+<p class="text-body-lg text-on-primary-container/90 max-w-lg">
+                            Encuentra expertos certificados para cualquier tarea en Mérida. Rápido, seguro y garantizado.
+                        </p>
+<!-- Main Search Bar -->
+<div class="bg-surface p-2 rounded-2xl shadow-xl flex flex-col md:flex-row gap-2 max-w-2xl">
+<div class="flex-1 flex items-center px-4 gap-3 bg-surface-container-low rounded-xl">
+<span class="material-symbols-outlined text-outline">search</span>
+<input aria-label="Buscar servicio" id="hero-search-input" class="w-full bg-transparent border-none focus:ring-0 text-on-surface py-4 font-body-md" placeholder="Qué servicio necesitas?" type="text"/>
+</div>
+<button id="hero-search-btn" class="flex items-center justify-center gap-2 px-6 py-4 bg-primary text-on-primary rounded-xl font-label-lg text-label-lg whitespace-nowrap hover:brightness-110 transition-all active:scale-95">
+                                Buscar
+                            </button>
+<button id="hero-location-btn" class="flex items-center justify-center gap-2 px-6 py-4 bg-secondary text-on-secondary rounded-xl font-label-lg text-label-lg whitespace-nowrap hover:brightness-110 transition-all active:scale-95">
+<span class="material-symbols-outlined text-label-lg">near_me</span>
+                                Usar mi ubicación
+                            </button>
+</div>
+</div>
+<div class="hidden md:block relative h-[450px]">
+<img alt="Professional service" class="w-full h-full object-cover rounded-3xl shadow-2xl" data-alt="A professional Mexican electrician in a clean, branded navy uniform working with specialized tools on a modern home electrical panel. The scene is brightly lit with warm, natural sunlight in a spacious Mérida home with minimalist white walls. The photography style is high-definition, corporate-modern, using a shallow depth of field to emphasize expertise and reliability. The overall mood is calm, professional, and trustworthy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhOeKoQBfDo7Tun8Ej_u3uNiD5LMQfvy_pECQa37T4y-_OygtPd-XoWvbtT8KlTZ243pibmEC9tFFlLmPK2geHvp7pIrw-I9ucuMySvl1kq7jxw9Gky0HkcXB_olfQipOXJ-_uKsn620uEfB7R2NE2kOSNNQMgNzifZAJIcnazKStcP3BfGFKpqfayD3kgv1u4qcEYGHkVDO0VKijWcZm57WSpwRiXehC8Ma984jQiqlK30O-MEhrlHZ3z3f95ttXfZ78Z7uqOCcFl"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Category Pills -->
+<section class="py-12 bg-surface">
+<div class="px-gutter-mobile md:px-gutter-desktop max-w-max-width-desktop mx-auto">
+<h2 class="font-headline-sm text-headline-sm mb-6 text-on-surface-variant">Categorías populares</h2>
+<div class="flex gap-4 overflow-x-auto hide-scrollbar pb-4 -mx-4 px-4 md:mx-0 md:px-0" id="category-pills">
+<button class="category-pill flex items-center gap-2 px-6 py-3 bg-surface-container-highest rounded-full whitespace-nowrap hover:bg-secondary-container transition-colors group" data-slug="plomeria">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">plumbing</span>
+<span class="font-label-lg text-label-lg">Plomería</span>
+</button>
+<button class="category-pill flex items-center gap-2 px-6 py-3 bg-surface-container-highest rounded-full whitespace-nowrap hover:bg-secondary-container transition-colors group" data-slug="electricidad">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">bolt</span>
+<span class="font-label-lg text-label-lg">Electricidad</span>
+</button>
+<button class="category-pill flex items-center gap-2 px-6 py-3 bg-surface-container-highest rounded-full whitespace-nowrap hover:bg-secondary-container transition-colors group" data-slug="jardineria">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">potted_plant</span>
+<span class="font-label-lg text-label-lg">Jardinería</span>
+</button>
+<button class="category-pill flex items-center gap-2 px-6 py-3 bg-surface-container-highest rounded-full whitespace-nowrap hover:bg-secondary-container transition-colors group" data-slug="limpieza">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">cleaning_services</span>
+<span class="font-label-lg text-label-lg">Limpieza</span>
+</button>
+<button class="category-pill flex items-center gap-2 px-6 py-3 bg-surface-container-highest rounded-full whitespace-nowrap hover:bg-secondary-container transition-colors group" data-slug="pintura">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">format_paint</span>
+<span class="font-label-lg text-label-lg">Pintura</span>
+</button>
+<button class="category-pill flex items-center gap-2 px-6 py-3 bg-surface-container-highest rounded-full whitespace-nowrap hover:bg-secondary-container transition-colors group" data-slug="mudanzas">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">local_shipping</span>
+<span class="font-label-lg text-label-lg">Mudanzas</span>
+</button>
+<button class="category-pill flex items-center gap-2 px-6 py-3 bg-surface-container-highest rounded-full whitespace-nowrap hover:bg-secondary-container transition-colors group" data-slug="mascotas">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">pets</span>
+<span class="font-label-lg text-label-lg">Cuidado de mascotas</span>
+</button>
+<button class="category-pill flex items-center gap-2 px-6 py-3 bg-surface-container-highest rounded-full whitespace-nowrap hover:bg-secondary-container transition-colors group" data-slug="reparaciones">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">handyman</span>
+<span class="font-label-lg text-label-lg">Reparaciones</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Popular Near You -->
+<section class="py-16 bg-background">
+<div class="px-gutter-mobile md:px-gutter-desktop max-w-max-width-desktop mx-auto">
+<div class="flex justify-between items-end mb-10">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Populares cerca de ti</h2>
+<p class="text-on-surface-variant font-body-md mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+                            En Mérida, Yucatán
+                        </p>
+</div>
+<a class="text-primary font-label-lg text-label-lg hover:underline hidden md:block" href="search.html">Ver todos los profesionales</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="popular-providers"></div>
+</div>
+</div>
+</section>
+<!-- How It Works Section -->
+<section class="py-24 bg-surface-container-low border-y border-outline-variant/30">
+<div class="px-gutter-mobile md:px-gutter-desktop max-w-max-width-desktop mx-auto">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">¿Cómo funciona Fix It?</h2>
+<p class="text-on-surface-variant font-body-lg max-w-2xl mx-auto">Tener un experto en casa nunca fue tan sencillo. En solo tres pasos tendrás todo resuelto.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-12 relative">
+<!-- Connector line for desktop -->
+<div class="hidden md:block absolute top-12 left-[20%] right-[20%] h-0.5 border-t-2 border-dashed border-outline-variant"></div>
+<div class="flex flex-col items-center text-center relative z-10">
+<div class="w-24 h-24 bg-primary rounded-full flex items-center justify-center text-on-primary mb-6 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[40px]">search</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-3">1. Buscar</h3>
+<p class="text-on-surface-variant font-body-md">Ingresa el servicio que necesitas y tu ubicación para ver los mejores expertos disponibles.</p>
+</div>
+<div class="flex flex-col items-center text-center relative z-10">
+<div class="w-24 h-24 bg-secondary rounded-full flex items-center justify-center text-on-secondary mb-6 shadow-lg shadow-secondary/20">
+<span class="material-symbols-outlined text-[40px]">compare_arrows</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-3">2. Comparar</h3>
+<p class="text-on-surface-variant font-body-md">Revisa perfiles, calificaciones reales de otros vecinos y presupuestos transparentes.</p>
+</div>
+<div class="flex flex-col items-center text-center relative z-10">
+<div class="w-24 h-24 bg-primary-container rounded-full flex items-center justify-center text-on-primary-container mb-6 shadow-lg shadow-primary-container/20">
+<span class="material-symbols-outlined text-[40px]">event_available</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-3">3. Reservar</h3>
+<p class="text-on-surface-variant font-body-md">Agenda el día y hora que mejor te convenga y paga de forma segura a través de la app.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-inverse-surface border-t border-outline-variant dark:border-outline">
+<div class="w-full py-12 px-gutter-desktop max-w-max-width-desktop mx-auto flex flex-col md:flex-row justify-between items-start gap-8">
+<div class="max-w-xs">
+<span class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed block mb-4">Fix It</span>
+<p class="text-on-surface-variant dark:text-outline-variant font-body-sm">
+                    © 2024 Fix It. Trusted Utility for Your Home. Conectando a los mejores expertos con los hogares de Mérida.
+                </p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-12">
+<div class="space-y-4">
+<span class="font-label-lg text-label-lg text-on-surface font-bold uppercase">Compañía</span>
+<ul class="space-y-2">
+<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">About Us</a></li>
+<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Careers</a></li>
+<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Contact</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<span class="font-label-lg text-label-lg text-on-surface font-bold uppercase">Legal</span>
+<ul class="space-y-2">
+<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Terms of Service</a></li>
+<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Privacy Policy</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<span class="font-label-lg text-label-lg text-on-surface font-bold uppercase">Ayuda</span>
+<ul class="space-y-2">
+<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Help Center</a></li>
+<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">FAQs</a></li>
+</ul>
+</div>
+</div>
+</div>
+</footer>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-surface dark:bg-surface-dim border-t border-outline-variant dark:border-outline px-4 py-3 md:hidden shadow-[0px_-4px_16px_rgba(0,0,0,0.04)] rounded-t-xl">
+<div class="flex justify-around items-center">
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-primary-container text-on-secondary-container dark:text-on-primary-container rounded-full px-4 py-1 active:scale-90 transition-all duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high active:scale-90 transition-all duration-150" href="#">
+<span class="material-symbols-outlined">search</span>
+<span class="font-label-sm text-label-sm">Search</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high active:scale-90 transition-all duration-150" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-sm text-label-sm">Bookings</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high active:scale-90 transition-all duration-150" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</div>
+</nav>
+<script src="js/home.js"></script>
+</body></html>
