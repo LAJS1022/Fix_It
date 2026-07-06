@@ -21,7 +21,12 @@ def create_app(config_name='default'):
     jwt.init_app(app)
     cors.init_app(app)
 
+    @app.route('/')
+    def serve_index():
+        return app.send_static_file('index.html')
+
     api = Api(
+
         app,
         version='1.0',
         title='Fix It API',
@@ -58,9 +63,5 @@ def create_app(config_name='default'):
     api.add_namespace(notifications_ns, path='/api/v1/notifications')
     api.add_namespace(reports_ns, path='/api/v1/reports')
     api.add_namespace(admin_ns, path='/api/v1/admin')
-
-    @app.route('/')
-    def serve_index():
-        return app.send_static_file('index.html')
 
     return app

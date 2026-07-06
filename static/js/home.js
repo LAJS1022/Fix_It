@@ -1,5 +1,3 @@
-const API_BASE = "/api/v1";
-
 // Hero search: text query -> search.html?q=...
 document.getElementById('hero-search-btn').addEventListener('click', () => {
     const q = document.getElementById('hero-search-input').value.trim();
@@ -68,6 +66,15 @@ async function loadPopularProviders(lat, lng) {
         const params = new URLSearchParams({ lat, lng, radius: 50 });
         const res = await fetch(`${API_BASE}/search/nearby?${params}`);
         const providers = await res.json();
+
+        if (!providers.length) {
+            document.getElementById('popular-providers').innerHTML = `
+                <p class="col-span-full text-on-surface-variant text-center py-8">
+                    Aún no hay profesionales registrados en tu zona. ¡Sé el primero en unirte!
+                </p>`;
+            return;
+        }
+
         const top = providers.sort((a, b) => b.avg_rating - a.avg_rating).slice(0, 4);
         document.getElementById('popular-providers').innerHTML = top.map(renderPopularCard).join('');
     } catch (err) {

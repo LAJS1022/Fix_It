@@ -1,5 +1,3 @@
-const API_BASE = "/api/v1";
-
 let allProviders = [];
 
 async function loadProviders(lat, lng, category = "") {

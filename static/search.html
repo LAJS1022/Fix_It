@@ -120,15 +120,23 @@
 <!-- TopAppBar Shell -->
 <header class="bg-surface dark:bg-surface-dim shadow-[0px_4px_20px_rgba(0,109,119,0.05)] sticky top-0 z-50">
 <div class="flex justify-between items-center w-full px-gutter-desktop max-w-max-width-desktop mx-auto h-20">
-<div class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed"><a href="index.html">Fix It</a></div>
+<a href="index.html" class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed">Fix It</a>
 <nav class="hidden md:flex items-center gap-8">
-<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 active:scale-95 transition-transform font-label-lg text-label-lg" href="#">Find Pros</a>
-<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 active:scale-95 transition-transform font-label-lg text-label-lg" href="#">How it Works</a>
-<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 active:scale-95 transition-transform font-label-lg text-label-lg" href="#">Become a Pro</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 active:scale-95 transition-transform font-label-lg text-label-lg" href="#">Buscar Profesionales</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 active:scale-95 transition-transform font-label-lg text-label-lg" href="how-it-works.html">Cómo Funciona</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 active:scale-95 transition-transform font-label-lg text-label-lg" href="become-provider.html">Únete como Profesional</a>
 </nav>
 <div class="flex items-center gap-4">
-<button class="hidden sm:block text-on-surface-variant dark:text-outline-variant font-medium font-label-lg text-label-lg">Log In</button>
-<button class="bg-primary-container text-white px-6 py-2.5 rounded-full font-bold active:scale-95 transition-transform">Sign Up</button>
+<div id="auth-buttons" class="flex items-center gap-4">
+<button onclick="location.href='login.html'" class="hidden sm:block text-on-surface-variant dark:text-outline-variant font-medium font-label-lg text-label-lg">Iniciar Sesión</button>
+<button onclick="location.href='register.html'" class="bg-primary-container text-white px-6 py-2.5 rounded-full font-bold active:scale-95 transition-transform">Registrarse</button>
+</div>
+<a id="profile-link" href="profile.html" class="hidden items-center gap-2 hover:brightness-95 transition-all">
+<span class="w-11 h-11 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined">person</span>
+</span>
+<span id="profile-name" class="hidden md:inline font-label-lg text-label-lg text-on-surface"></span>
+</a>
 </div>
 </div>
 </header>
@@ -224,27 +232,34 @@
 <!-- Footer Shell -->
 <footer class="bg-surface-container-lowest dark:bg-inverse-surface border-t border-outline-variant dark:border-outline">
 <div class="w-full py-12 px-gutter-desktop max-w-max-width-desktop mx-auto flex flex-col md:flex-row justify-between items-start gap-8">
-<div class="max-w-[300px]">
-<div class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed mb-4">Fix It</div>
-<p class="text-on-surface-variant dark:text-outline-variant font-body-sm text-body-sm">
-                    © 2024 Fix It. Trusted Utility for Your Home. Mérida's leading network for local service professionals.
+<div class="max-w-xs">
+<span class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed block mb-4">Fix It</span>
+<p class="text-on-surface-variant dark:text-outline-variant font-body-sm">
+                    © 2026 Fix It. Conectando a los mejores expertos con los hogares del mundo.
                 </p>
 </div>
-<div class="grid grid-cols-2 sm:grid-cols-3 gap-8">
-<div class="flex flex-col gap-3">
-<span class="font-label-lg text-label-lg text-on-surface dark:text-on-surface-variant">Company</span>
-<a class="text-on-surface-variant dark:text-outline-variant hover:underline hover:text-primary transition-all font-label-md text-label-md" href="#">About Us</a>
-<a class="text-on-surface-variant dark:text-outline-variant hover:underline hover:text-primary transition-all font-label-md text-label-md" href="#">Contact</a>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-12">
+<div class="space-y-4">
+<span class="font-label-lg text-label-lg text-on-surface font-bold uppercase">Compañía</span>
+<ul class="space-y-2">
+<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Nosotros</a></li>
+<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Empleos</a></li>
+<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Contacto</a></li>
+</ul>
 </div>
-<div class="flex flex-col gap-3">
-<span class="font-label-lg text-label-lg text-on-surface dark:text-on-surface-variant">Support</span>
-<a class="text-on-surface-variant dark:text-outline-variant hover:underline hover:text-primary transition-all font-label-md text-label-md" href="#">Help Center</a>
-<a class="text-on-surface-variant dark:text-outline-variant hover:underline hover:text-primary transition-all font-label-md text-label-md" href="#">Safety</a>
+<div class="space-y-4">
+<span class="font-label-lg text-label-lg text-on-surface font-bold uppercase">Legal</span>
+<ul class="space-y-2">
+<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Términos de Servicio</a></li>
+<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Política de Privacidad</a></li>
+</ul>
 </div>
-<div class="flex flex-col gap-3">
-<span class="font-label-lg text-label-lg text-on-surface dark:text-on-surface-variant">Legal</span>
-<a class="text-on-surface-variant dark:text-outline-variant hover:underline hover:text-primary transition-all font-label-md text-label-md" href="#">Terms of Service</a>
-<a class="text-on-surface-variant dark:text-outline-variant hover:underline hover:text-primary transition-all font-label-md text-label-md" href="#">Privacy Policy</a>
+<div class="space-y-4">
+<span class="font-label-lg text-label-lg text-on-surface font-bold uppercase">Ayuda</span>
+<ul class="space-y-2">
+<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Centro de Ayuda</a></li>
+<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Preguntas Frecuentes</a></li>
+</ul>
 </div>
 </div>
 </div>
@@ -253,19 +268,19 @@
 <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 md:hidden bg-surface dark:bg-surface-dim border-t border-outline-variant dark:border-outline shadow-[0px_-4px_16px_rgba(0,0,0,0.04)] rounded-t-xl">
 <div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant active:scale-90 transition-all duration-150">
 <span class="material-symbols-outlined">home</span>
-<span class="font-label-sm text-label-sm">Home</span>
+<span class="font-label-sm text-label-sm">Inicio</span>
 </div>
 <div class="flex flex-col items-center justify-center bg-secondary-container dark:bg-primary-container text-on-secondary-container dark:text-on-primary-container rounded-full px-4 py-1 active:scale-90 transition-all duration-150">
 <span class="material-symbols-outlined">search</span>
-<span class="font-label-sm text-label-sm">Search</span>
+<span class="font-label-sm text-label-sm">Buscar</span>
 </div>
 <div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant active:scale-90 transition-all duration-150">
 <span class="material-symbols-outlined">calendar_today</span>
-<span class="font-label-sm text-label-sm">Bookings</span>
+<span class="font-label-sm text-label-sm">Reservas</span>
 </div>
 <div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant active:scale-90 transition-all duration-150">
 <span class="material-symbols-outlined">person</span>
-<span class="font-label-sm text-label-sm">Profile</span>
+<span class="font-label-sm text-label-sm">Perfil</span>
 </div>
 </nav>
 <script>
@@ -310,5 +325,6 @@
             });
         });
     </script>
+<script src="js/auth.js"></script>
 <script src="js/app.js"></script>
 </body></html>

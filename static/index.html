@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html class="light" lang="es"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -126,16 +125,24 @@
 <header class="bg-surface dark:bg-surface-dim shadow-[0px_4px_20px_rgba(0,109,119,0.05)] sticky top-0 z-[100] w-full">
 <div class="flex justify-between items-center w-full px-gutter-desktop max-w-max-width-desktop mx-auto h-20">
 <div class="flex items-center gap-8">
-<span class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed">Fix It</span>
+<a href="index.html" class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed">Fix It</a>
 <nav class="hidden md:flex items-center gap-6">
-<a class="text-primary dark:text-primary-fixed border-b-2 border-primary font-bold pb-1 transition-colors duration-200" href="#">Find Pros</a>
-<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200" href="#">How it Works</a>
-<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200" href="#">Become a Pro</a>
+<a class="text-primary dark:text-primary-fixed border-b-2 border-primary font-bold pb-1 transition-colors duration-200" href="#">Buscar Profesionales</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200" href="how-it-works.html">Cómo Funciona</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200" href="become-provider.html">Únete como Profesional</a>
 </nav>
 </div>
 <div class="flex items-center gap-4">
-<button class="hidden md:block text-primary font-label-lg text-label-lg px-4 py-2 hover:bg-surface-container-low rounded-lg transition-colors">Log In</button>
-<button class="bg-primary text-on-primary font-label-lg text-label-lg px-6 py-2.5 rounded-full hover:bg-primary-container transition-all active:scale-95 shadow-sm">Sign Up</button>
+<div id="auth-buttons" class="flex items-center gap-4">
+<button onclick="location.href='login.html'" class="hidden md:block text-primary font-label-lg text-label-lg px-4 py-2 hover:bg-surface-container-low rounded-lg transition-colors">Iniciar Sesión</button>
+<button onclick="location.href='register.html'" class="bg-primary text-on-primary font-label-lg text-label-lg px-6 py-2.5 rounded-full hover:bg-primary-container transition-all active:scale-95 shadow-sm">Registrarse</button>
+</div>
+<a id="profile-link" href="profile.html" class="hidden items-center gap-2 hover:brightness-95 transition-all">
+<span class="w-11 h-11 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined">person</span>
+</span>
+<span id="profile-name" class="hidden md:inline font-label-lg text-label-lg text-on-surface"></span>
+</a>
 </div>
 </div>
 </header>
@@ -274,30 +281,30 @@
 <div class="max-w-xs">
 <span class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed block mb-4">Fix It</span>
 <p class="text-on-surface-variant dark:text-outline-variant font-body-sm">
-                    © 2024 Fix It. Trusted Utility for Your Home. Conectando a los mejores expertos con los hogares de Mérida.
+                    © 2026 Fix It. Conectando a los mejores expertos con los hogares del mundo.
                 </p>
 </div>
 <div class="grid grid-cols-2 sm:grid-cols-3 gap-12">
 <div class="space-y-4">
 <span class="font-label-lg text-label-lg text-on-surface font-bold uppercase">Compañía</span>
 <ul class="space-y-2">
-<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">About Us</a></li>
-<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Careers</a></li>
-<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Contact</a></li>
+<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Nosotros</a></li>
+<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Empleos</a></li>
+<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Contacto</a></li>
 </ul>
 </div>
 <div class="space-y-4">
 <span class="font-label-lg text-label-lg text-on-surface font-bold uppercase">Legal</span>
 <ul class="space-y-2">
-<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Terms of Service</a></li>
-<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Privacy Policy</a></li>
+<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Términos de Servicio</a></li>
+<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Política de Privacidad</a></li>
 </ul>
 </div>
 <div class="space-y-4">
 <span class="font-label-lg text-label-lg text-on-surface font-bold uppercase">Ayuda</span>
 <ul class="space-y-2">
-<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Help Center</a></li>
-<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">FAQs</a></li>
+<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Centro de Ayuda</a></li>
+<li><a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:underline hover:text-primary transition-all" href="#">Preguntas Frecuentes</a></li>
 </ul>
 </div>
 </div>
@@ -308,21 +315,22 @@
 <div class="flex justify-around items-center">
 <a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-primary-container text-on-secondary-container dark:text-on-primary-container rounded-full px-4 py-1 active:scale-90 transition-all duration-150" href="#">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
-<span class="font-label-sm text-label-sm">Home</span>
+<span class="font-label-sm text-label-sm">Inicio</span>
 </a>
 <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high active:scale-90 transition-all duration-150" href="#">
 <span class="material-symbols-outlined">search</span>
-<span class="font-label-sm text-label-sm">Search</span>
+<span class="font-label-sm text-label-sm">Buscar</span>
 </a>
 <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high active:scale-90 transition-all duration-150" href="#">
 <span class="material-symbols-outlined">calendar_today</span>
-<span class="font-label-sm text-label-sm">Bookings</span>
+<span class="font-label-sm text-label-sm">Reservas</span>
 </a>
 <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high active:scale-90 transition-all duration-150" href="#">
 <span class="material-symbols-outlined">person</span>
-<span class="font-label-sm text-label-sm">Profile</span>
+<span class="font-label-sm text-label-sm">Perfil</span>
 </a>
 </div>
 </nav>
+<script src="js/auth.js"></script>
 <script src="js/home.js"></script>
 </body></html>
