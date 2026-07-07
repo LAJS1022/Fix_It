@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fix It - Perfil del Profesional</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error": "#ba1a1a",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-tertiary-container": "#ffd7c9",
+                    "on-tertiary-fixed": "#380d00",
+                    "inverse-surface": "#2d3133",
+                    "tertiary-container": "#915239",
+                    "primary-fixed-dim": "#82d3de",
+                    "secondary": "#236863",
+                    "on-primary-fixed": "#001f23",
+                    "on-secondary-fixed": "#00201e",
+                    "outline": "#6f797a",
+                    "on-secondary": "#ffffff",
+                    "background": "#f7f9fb",
+                    "error-container": "#ffdad6",
+                    "tertiary": "#743b24",
+                    "on-surface": "#191c1e",
+                    "outline-variant": "#bec8ca",
+                    "on-background": "#191c1e",
+                    "on-surface-variant": "#3e494a",
+                    "surface-container-highest": "#e0e3e5",
+                    "secondary-container": "#a9ece5",
+                    "primary": "#00535b",
+                    "on-primary-container": "#9becf7",
+                    "surface": "#f7f9fb",
+                    "surface-dim": "#d8dadc",
+                    "tertiary-fixed": "#ffdbce",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed": "#acefe7",
+                    "surface-variant": "#e0e3e5",
+                    "inverse-primary": "#82d3de",
+                    "surface-container-low": "#f2f4f6",
+                    "surface-bright": "#f7f9fb",
+                    "surface-container": "#eceef0",
+                    "surface-container-high": "#e6e8ea",
+                    "on-tertiary-fixed-variant": "#6f3720",
+                    "primary-fixed": "#9ff0fb",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed-dim": "#ffb59a",
+                    "primary-container": "#006d77",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed-variant": "#004f56",
+                    "secondary-fixed-dim": "#90d3cb",
+                    "on-secondary-fixed-variant": "#00504b",
+                    "on-secondary-container": "#286d67",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "surface-tint": "#006972"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter-desktop": "24px",
+                    "unit": "8px",
+                    "max-width-desktop": "1200px",
+                    "gutter-mobile": "16px",
+                    "margin-desktop": "auto",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Inter"],
+                    "headline-sm": ["Montserrat"],
+                    "label-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "headline-lg-mobile": ["Montserrat"],
+                    "display-lg-mobile": ["Montserrat"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Montserrat"],
+                    "body-lg": ["Inter"],
+                    "display-lg": ["Montserrat"],
+                    "headline-lg": ["Montserrat"]
+            },
+            "fontSize": {
+                    "label-sm": ["11px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md">
+<header class="bg-surface dark:bg-surface-dim shadow-[0px_4px_20px_rgba(0,109,119,0.05)] sticky top-0 z-[100] w-full">
+<div class="flex justify-between items-center w-full px-gutter-desktop max-w-max-width-desktop mx-auto h-20">
+<a href="index.html" class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed">Fix It</a>
+<a href="search.html" class="text-on-surface-variant font-label-lg text-label-lg hover:text-primary transition-colors">Volver a la búsqueda</a>
+</div>
+</header>
+<main class="py-12 px-gutter-mobile">
+<div id="loading-state" class="max-w-3xl mx-auto text-center py-20 text-on-surface-variant">Cargando perfil...</div>
+<div id="not-found-state" class="hidden max-w-3xl mx-auto text-center py-20">
+<p class="font-headline-sm text-headline-sm text-on-surface-variant">No se encontró este profesional.</p>
+<a href="search.html" class="text-primary font-semibold hover:underline">Volver a la búsqueda</a>
+</div>
+<div id="profile-content" class="hidden max-w-3xl mx-auto space-y-6">
+
+<div class="bg-surface-container-lowest rounded-2xl shadow-[0px_4px_20px_rgba(0,109,119,0.08)] p-8">
+<div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+<div class="w-24 h-24 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0 overflow-hidden">
+<img id="avatar" class="w-full h-full object-cover hidden" src=""/>
+<span id="avatar-fallback" class="material-symbols-outlined text-[48px]">person</span>
+</div>
+<div class="flex-1 text-center sm:text-left">
+<div class="flex items-center justify-center sm:justify-start gap-2 mb-1">
+<h1 class="font-headline-lg text-headline-lg text-on-surface" id="provider-name"></h1>
+<span id="verified-badge" class="hidden material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<p class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider mb-2" id="provider-category"></p>
+<div class="flex items-center justify-center sm:justify-start gap-2 mb-4">
+<span class="material-symbols-outlined text-[#FFB703]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold" id="provider-rating"></span>
+<span class="text-on-surface-variant" id="provider-review-count"></span>
+</div>
+<div class="flex items-center justify-center sm:justify-start gap-1 text-on-surface-variant font-body-sm">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span id="provider-zone"></span>
+</div>
+</div>
+<div class="text-center sm:text-right">
+<span class="text-label-sm text-on-surface-variant uppercase tracking-wider block">Desde</span>
+<span class="font-bold text-primary text-headline-sm" id="provider-price"></span>
+<button class="w-full mt-3 py-3 px-6 bg-primary text-on-primary rounded-xl font-label-lg text-label-lg hover:brightness-110 transition-all active:scale-[0.98]" onclick="alert('La función de reservas estará disponible próximamente.')">Reservar ahora</button>
+</div>
+</div>
+</div>
+
+<div class="bg-surface-container-lowest rounded-2xl shadow-[0px_4px_20px_rgba(0,109,119,0.08)] p-8">
+<h2 class="font-headline-sm text-headline-sm mb-3">Sobre mí</h2>
+<p class="text-on-surface-variant font-body-md" id="provider-bio"></p>
+<p class="text-on-surface-variant font-body-sm mt-3" id="provider-experience"></p>
+</div>
+
+<div id="gallery-section" class="hidden bg-surface-container-lowest rounded-2xl shadow-[0px_4px_20px_rgba(0,109,119,0.08)] p-8">
+<h2 class="font-headline-sm text-headline-sm mb-4">Galería de trabajos</h2>
+<div id="gallery-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
+</div>
+
+<div class="bg-surface-container-lowest rounded-2xl shadow-[0px_4px_20px_rgba(0,109,119,0.08)] p-8">
+<h2 class="font-headline-sm text-headline-sm mb-4">Reseñas</h2>
+<div id="reviews-list" class="space-y-4"></div>
+<p id="no-reviews" class="hidden text-on-surface-variant font-body-sm">Este profesional aún no tiene reseñas.</p>
+</div>
+
+</div>
+</main>
+<script src="js/auth.js"></script>
+<script>
+const providerId = new URLSearchParams(window.location.search).get('id');
+
+async function loadProviderProfile() {
+    if (!providerId) {
+        document.getElementById('loading-state').classList.add('hidden');
+        document.getElementById('not-found-state').classList.remove('hidden');
+        return;
+    }
+
+    const res = await fetch(`${API_BASE}/providers/${providerId}`);
+    if (!res.ok) {
+        document.getElementById('loading-state').classList.add('hidden');
+        document.getElementById('not-found-state').classList.remove('hidden');
+        return;
+    }
+    const p = await res.json();
+
+    document.getElementById('provider-name').textContent = p.name;
+    document.getElementById('provider-category').textContent = p.category || '';
+    document.getElementById('provider-rating').textContent = p.avg_rating.toFixed(1);
+    document.getElementById('provider-review-count').textContent = `(${p.review_count} reseñas)`;
+    document.getElementById('provider-zone').textContent = p.service_zone || 'Zona no especificada';
+    document.getElementById('provider-price').textContent =
+        `$${p.price_min ?? '--'} - $${p.price_max ?? '--'} MXN/hr`;
+    document.getElementById('provider-bio').textContent = p.bio || 'Este profesional aún no ha agregado una descripción.';
+    document.getElementById('provider-experience').textContent =
+        p.experience_years ? `${p.experience_years} años de experiencia` : '';
+
+    if (p.verified) document.getElementById('verified-badge').classList.remove('hidden');
+    if (p.photo_url) {
+        document.getElementById('avatar').src = p.photo_url;
+        document.getElementById('avatar').classList.remove('hidden');
+        document.getElementById('avatar-fallback').classList.add('hidden');
+    }
+
+    document.getElementById('loading-state').classList.add('hidden');
+    document.getElementById('profile-content').classList.remove('hidden');
+
+    loadGallery();
+    loadReviews();
+}
+
+async function loadGallery() {
+    try {
+        const res = await fetch(`${API_BASE}/providers/${providerId}/gallery`);
+        const items = await res.json();
+        if (!items.length) return;
+
+        document.getElementById('gallery-section').classList.remove('hidden');
+        document.getElementById('gallery-grid').innerHTML = items.map(g => `
+            <img src="${g.image_url}" alt="${g.caption || 'Trabajo realizado'}" class="w-full h-32 object-cover rounded-lg"/>
+        `).join('');
+    } catch (err) {
+        console.error('Could not load gallery', err);
+    }
+}
+
+async function loadReviews() {
+    try {
+        const res = await fetch(`${API_BASE}/reviews/`);
+        const allReviews = await res.json();
+        const providerReviews = allReviews.filter(r => r.provider_id === providerId);
+
+        if (!providerReviews.length) {
+            document.getElementById('no-reviews').classList.remove('hidden');
+            return;
+        }
+
+        const withNames = await Promise.all(providerReviews.map(async r => {
+            try {
+                const uRes = await fetch(`${API_BASE}/users/${r.client_id}`);
+                const u = await uRes.json();
+                return { ...r, clientName: `${u.first_name} ${u.last_name}` };
+            } catch {
+                return { ...r, clientName: 'Cliente' };
+            }
+        }));
+
+        document.getElementById('reviews-list').innerHTML = withNames.map(r => `
+            <div class="border-b border-outline-variant pb-4 last:border-0">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="font-label-lg text-label-lg text-on-surface">${r.clientName}</span>
+                    <span class="flex items-center gap-1 text-[#FFB703]">
+                        ${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}
+                    </span>
+                </div>
+                <p class="text-on-surface-variant font-body-sm">${r.comment || ''}</p>
+            </div>
+        `).join('');
+    } catch (err) {
+        console.error('Could not load reviews', err);
+    }
+}
+
+loadProviderProfile();
+</script>
+</body></html>

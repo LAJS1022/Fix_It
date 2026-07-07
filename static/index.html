@@ -187,7 +187,11 @@
 <section class="py-12 bg-surface">
 <div class="px-gutter-mobile md:px-gutter-desktop max-w-max-width-desktop mx-auto">
 <h2 class="font-headline-sm text-headline-sm mb-6 text-on-surface-variant">Categorías populares</h2>
-<div class="flex gap-4 overflow-x-auto hide-scrollbar pb-4 -mx-4 px-4 md:mx-0 md:px-0" id="category-pills">
+<div class="relative">
+<button id="category-scroll-left" class="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-10 w-10 h-10 rounded-full bg-surface-container-lowest shadow-md items-center justify-center hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<div class="flex gap-4 overflow-x-auto hide-scrollbar pb-4 -mx-4 px-4 md:mx-0 md:px-0 scroll-smooth" id="category-pills">
 <button class="category-pill flex items-center gap-2 px-6 py-3 bg-surface-container-highest rounded-full whitespace-nowrap hover:bg-secondary-container transition-colors group" data-slug="plomeria">
 <span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">plumbing</span>
 <span class="font-label-lg text-label-lg">Plomería</span>
@@ -219,6 +223,10 @@
 <button class="category-pill flex items-center gap-2 px-6 py-3 bg-surface-container-highest rounded-full whitespace-nowrap hover:bg-secondary-container transition-colors group" data-slug="reparaciones">
 <span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">handyman</span>
 <span class="font-label-lg text-label-lg">Reparaciones</span>
+</button>
+</div>
+<button id="category-scroll-right" class="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10 w-10 h-10 rounded-full bg-surface-container-lowest shadow-md items-center justify-center hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
 </button>
 </div>
 </div>

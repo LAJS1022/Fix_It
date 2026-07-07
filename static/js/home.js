@@ -20,6 +20,21 @@ document.getElementById('hero-location-btn').addEventListener('click', () => {
     );
 });
 
+// Category scroll arrows
+const categoryPills = document.getElementById('category-pills');
+const scrollLeftBtn = document.getElementById('category-scroll-left');
+const scrollRightBtn = document.getElementById('category-scroll-right');
+
+if (categoryPills && scrollLeftBtn && scrollRightBtn) {
+    const scrollAmount = 300;
+    scrollLeftBtn.addEventListener('click', () => {
+        categoryPills.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    });
+    scrollRightBtn.addEventListener('click', () => {
+        categoryPills.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    });
+}
+
 // Category pills -> search.html?category=slug
 document.querySelectorAll('.category-pill').forEach(btn => {
     btn.addEventListener('click', () => {

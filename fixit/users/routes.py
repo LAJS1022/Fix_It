@@ -2,6 +2,7 @@ from flask import request
 from flask_restx import Namespace, Resource, fields
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from fixit.users.models import User
+from fixit.cloudinary_helper import upload_image
 
 ns = Namespace('users', description='User operations')
 
@@ -12,6 +13,35 @@ user_model = ns.model('User', {
     'city': fields.String(required=False),
     'avatar_url': fields.String(required=False)
 })
+
+@ns.route('/<string:user_id>/avatar')
+class UserAvatar(Resource):
+    @jwt_required()
+    def post(self, user_id):
+        current_user_id = get_jwt_identity()
+        claims = get_jwt()
+
+        if current_user_id != user_id and not claims.get('is_admin'):
+            return {'error': 'Unauthorized'}, 403
+
+        user = User.query.get(user_id)
+        if not user:
+            return {'error': 'User not found'}, 404
+
+        if 'image' not in request.files:
+            return {'error': 'No image file provided'}, 400
+
+        file = request.files['image']
+        if file.filename == '':
+            return {'error': 'No image selected'}, 400
+
+        try:
+            image_url = upload_image(file, folder='fixit/avatars')
+            user.avatar_url = image_url
+            user.update()
+            return user.to_dict(), 200
+        except Exception as e:
+            return {'error': str(e)}, 500
 
 @ns.route('/<string:user_id>')
 class UserResource(Resource):

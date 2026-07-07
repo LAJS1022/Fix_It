@@ -20,11 +20,15 @@ function authHeader() {
     return token ? { "Authorization": `Bearer ${token}` } : {};
 }
 
-function logout() {
+function clearSession() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('user_id');
     localStorage.removeItem('role');
     localStorage.removeItem('is_admin');
+}
+
+function logout() {
+    clearSession();
     window.location.href = 'index.html';
 }
 
@@ -71,6 +75,12 @@ async function renderNavAuthState() {
                 const user = await res.json();
                 const nameEl = document.getElementById('profile-name');
                 if (nameEl) nameEl.textContent = `${user.first_name} ${user.last_name}`;
+            } else {
+                // Token expired or invalid: fall back to logged-out state
+                clearSession();
+                authButtons.classList.remove('hidden');
+                profileLink.classList.add('hidden');
+                profileLink.classList.remove('flex');
             }
         } catch (err) {
             console.error('Could not load user profile', err);
