@@ -30,11 +30,17 @@ class BookingList(Resource):
 
         if claims.get('is_admin'):
             bookings = Booking.query.all()
-        elif claims.get('role') == 'provider':
-            provider = Provider.query.filter_by(user_id=current_user_id).first()
-            bookings = Booking.query.filter_by(provider_id=provider.id).all() if provider else []
         else:
-            bookings = Booking.query.filter_by(client_id=current_user_id).all()
+            provider = Provider.query.filter_by(user_id=current_user_id).first()
+            sent = Booking.query.filter_by(client_id=current_user_id).all()
+            received = Booking.query.filter_by(provider_id=provider.id).all() if provider else []
+            # Deduplicate in case a provider ever books their own listing (shouldn't happen, but safe)
+            seen = set()
+            bookings = []
+            for b in sent + received:
+                if b.id not in seen:
+                    seen.add(b.id)
+                    bookings.append(b)
 
         return [b.to_dict() for b in bookings], 200
 
@@ -88,6 +94,35 @@ class BookingResource(Resource):
             return {'error': 'Unauthorized'}, 403
 
         return booking.to_dict(), 200
+
+    @jwt_required()
+    def delete(self, booking_id):
+        current_user_id = get_jwt_identity()
+        claims = get_jwt()
+
+        booking = Booking.query.get(booking_id)
+        if not booking:
+            return {'error': 'Booking not found'}, 404
+
+        provider = Provider.query.filter_by(user_id=current_user_id).first()
+        is_provider = provider and booking.provider_id == provider.id
+        is_client = booking.client_id == current_user_id
+
+        if not is_client and not is_provider and not claims.get('is_admin'):
+            return {'error': 'Unauthorized'}, 403
+
+        if booking.status not in ('completed', 'cancelled'):
+            return {'error': 'Only completed or cancelled bookings can be deleted'}, 400
+
+        provider_to_update = provider if is_provider else Provider.query.get(booking.provider_id)
+        had_review = booking.review is not None
+
+        booking.delete()
+
+        if had_review and provider_to_update:
+            provider_to_update.update_rating()
+
+        return {'message': 'Booking deleted successfully'}, 200
 
 @ns.route('/<string:booking_id>/status')
 class BookingStatus(Resource):

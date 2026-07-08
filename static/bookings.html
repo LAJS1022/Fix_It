@@ -130,11 +130,53 @@
 <main class="py-12 px-gutter-mobile">
 <div class="max-w-3xl mx-auto">
 <h1 class="font-headline-lg text-headline-lg text-on-surface mb-8">Mis Reservas</h1>
-<div id="bookings-list" class="space-y-4">
-<p class="text-on-surface-variant text-center py-12">Cargando tus reservas...</p>
+<p id="loading-state" class="text-on-surface-variant text-center py-12">Cargando tus reservas...</p>
+
+<div id="bookings-content" class="hidden space-y-10">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined">north_east</span>
+Enviadas
+<span class="font-body-sm text-on-surface-variant font-normal">— servicios que reservaste</span>
+</h2>
+<div id="sent-bookings-list" class="space-y-4"></div>
+</div>
+
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined">south_west</span>
+Recibidas
+<span class="font-body-sm text-on-surface-variant font-normal">— reservas de tus clientes</span>
+</h2>
+<div id="received-bookings-list" class="space-y-4"></div>
+</div>
 </div>
 </div>
 </main>
+
+<!-- Review modal -->
+<div id="review-modal" class="hidden fixed inset-0 z-[200] bg-black/60 items-center justify-center p-4">
+<div class="bg-surface-container-lowest rounded-2xl p-6 w-full max-w-md">
+<h2 class="font-headline-sm text-headline-sm mb-1">Calificar a <span id="review-provider-name"></span></h2>
+<p class="text-on-surface-variant font-body-sm mb-4">Tu opinión ayuda a otros usuarios de Fix It.</p>
+<div id="review-error" class="hidden bg-error-container text-on-error-container rounded-lg p-3 mb-4 font-body-sm"></div>
+
+<div class="flex items-center gap-1 mb-4 justify-center">
+<button type="button" class="star-picker-btn" onclick="updateStarPicker(1)"><span class="material-symbols-outlined text-[36px] text-outline-variant" style="font-variation-settings: 'FILL' 1;">star</span></button>
+<button type="button" class="star-picker-btn" onclick="updateStarPicker(2)"><span class="material-symbols-outlined text-[36px] text-outline-variant" style="font-variation-settings: 'FILL' 1;">star</span></button>
+<button type="button" class="star-picker-btn" onclick="updateStarPicker(3)"><span class="material-symbols-outlined text-[36px] text-outline-variant" style="font-variation-settings: 'FILL' 1;">star</span></button>
+<button type="button" class="star-picker-btn" onclick="updateStarPicker(4)"><span class="material-symbols-outlined text-[36px] text-outline-variant" style="font-variation-settings: 'FILL' 1;">star</span></button>
+<button type="button" class="star-picker-btn" onclick="updateStarPicker(5)"><span class="material-symbols-outlined text-[36px] text-outline-variant" style="font-variation-settings: 'FILL' 1;">star</span></button>
+</div>
+
+<textarea id="review-comment" rows="3" placeholder="Cuéntanos sobre tu experiencia (opcional)..." class="w-full px-4 py-3 bg-surface-container-low rounded-xl border-none focus:ring-2 focus:ring-primary font-body-md mb-4"></textarea>
+
+<div class="flex gap-3">
+<button type="button" onclick="closeReviewModal()" class="flex-1 py-3 bg-surface-container-low text-on-surface rounded-xl font-label-lg text-label-lg hover:bg-surface-container-high transition-colors">Cancelar</button>
+<button type="button" onclick="submitReview()" class="flex-1 py-3 bg-primary text-on-primary rounded-xl font-label-lg text-label-lg hover:brightness-110 transition-all active:scale-[0.98]">Enviar reseña</button>
+</div>
+</div>
+</div>
 <script src="js/auth.js"></script>
 <script>
 if (!isLoggedIn()) {
@@ -172,73 +214,141 @@ async function fetchJson(url) {
 
 async function loadBookings() {
     const bookings = await fetchJson(`${API_BASE}/bookings/`);
-    const container = document.getElementById('bookings-list');
+    const loadingState = document.getElementById('loading-state');
+    const content = document.getElementById('bookings-content');
+    const sentContainer = document.getElementById('sent-bookings-list');
+    const receivedContainer = document.getElementById('received-bookings-list');
 
     if (bookings === null) {
-        container.innerHTML = '<p class="text-on-surface-variant text-center py-12">No se pudieron cargar tus reservas. Intenta iniciar sesión de nuevo.</p>';
+        loadingState.textContent = 'No se pudieron cargar tus reservas. Intenta iniciar sesión de nuevo.';
         return;
     }
 
+    loadingState.classList.add('hidden');
+    content.classList.remove('hidden');
+
     if (!bookings.length) {
-        container.innerHTML = `
+        sentContainer.innerHTML = `
             <div class="text-center py-16 bg-surface-container-lowest rounded-2xl border border-outline-variant/30">
                 <span class="material-symbols-outlined text-[48px] text-on-surface-variant mb-3 block">calendar_today</span>
                 <p class="text-on-surface-variant font-body-md mb-4">Aún no tienes reservas.</p>
                 <a href="search.html" class="inline-block px-6 py-3 bg-primary text-on-primary rounded-xl font-label-lg text-label-lg hover:brightness-110 transition-all">Buscar un profesional</a>
             </div>`;
+        receivedContainer.innerHTML = '<p class="text-on-surface-variant font-body-sm">Sin reservas recibidas.</p>';
         return;
     }
 
-    // Enrich each booking with provider name and service name
+    // Enrich each booking with provider name, service name, and existing review (if any)
+    const allReviews = await fetchJson(`${API_BASE}/reviews/`) || [];
+
     const enriched = await Promise.all(bookings.map(async b => {
         const [provider, service] = await Promise.all([
             fetchJson(`${API_BASE}/providers/${b.provider_id}`),
             fetchJson(`${API_BASE}/services/${b.service_id}`)
         ]);
-        return { ...b, providerName: provider?.name || 'Profesional', serviceName: service?.name || 'Servicio' };
+        const myReview = allReviews.find(r => r.booking_id === b.id);
+        // Per-booking, not per-role: a user can be both a client and a provider,
+        // so whether *this specific* booking was sent or received depends on
+        // its own client_id, not the user's overall account role.
+        const isSent = b.client_id === myUserId;
+        return {
+            ...b,
+            providerName: provider?.name || 'Profesional',
+            serviceName: service?.name || 'Servicio',
+            myReview,
+            isSent
+        };
     }));
 
     enriched.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-    container.innerHTML = enriched.map(b => {
-        const dateStr = new Date(b.date).toLocaleString('es-MX', { dateStyle: 'medium', timeStyle: 'short' });
-        const isProvider = myRole === 'provider';
-        const isActive = b.status !== 'completed' && b.status !== 'cancelled';
+    const sent = enriched.filter(b => b.isSent);
+    const received = enriched.filter(b => !b.isSent);
 
-        const providerControls = isProvider && isActive ? `
-            ${b.status === 'pending' ? `<button onclick="updateStatus('${b.id}', 'confirmed')" class="px-3 py-1.5 bg-primary text-on-primary rounded-lg text-label-md font-label-md">Confirmar</button>` : ''}
-            ${b.status === 'confirmed' ? `<button onclick="updateStatus('${b.id}', 'in_progress')" class="px-3 py-1.5 bg-primary text-on-primary rounded-lg text-label-md font-label-md">Iniciar</button>` : ''}
-            ${b.status === 'in_progress' ? `<button onclick="updateStatus('${b.id}', 'completed')" class="px-3 py-1.5 bg-primary text-on-primary rounded-lg text-label-md font-label-md">Completar</button>` : ''}
-        ` : '';
+    sentContainer.innerHTML = sent.length
+        ? sent.map(b => renderBookingCard(b)).join('')
+        : '<p class="text-on-surface-variant font-body-sm">No has reservado ningún servicio todavía.</p>';
 
-        const cancelButton = isActive ? `<button onclick="updateStatus('${b.id}', 'cancelled')" class="px-3 py-1.5 bg-surface-container-low text-on-surface rounded-lg text-label-md font-label-md">Cancelar</button>` : '';
+    receivedContainer.innerHTML = received.length
+        ? received.map(b => renderBookingCard(b)).join('')
+        : '<p class="text-on-surface-variant font-body-sm">Aún no has recibido reservas.</p>';
+}
 
-        const statusControls = (providerControls || cancelButton) ? `
-            <div class="flex gap-2 mt-3">
-                ${providerControls}
-                ${cancelButton}
-            </div>` : '';
+function renderBookingCard(b) {
+    const dateStr = new Date(b.date).toLocaleString('es-MX', { dateStyle: 'medium', timeStyle: 'short' });
+    const isActive = b.status !== 'completed' && b.status !== 'cancelled';
+    const isFinished = !isActive; // completed or cancelled -> eligible for deletion
 
-        return `
-        <div class="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/30">
-            <div class="flex justify-between items-start mb-2">
-                <div>
-                    <h3 class="font-headline-sm text-headline-sm text-on-surface">${b.serviceName}</h3>
-                    <p class="text-on-surface-variant font-body-sm">con ${b.providerName}</p>
-                </div>
-                <span class="px-3 py-1 rounded-full text-label-sm font-label-sm ${STATUS_COLORS[b.status] || ''}">${STATUS_LABELS[b.status] || b.status}</span>
+    // "Received" means I'm the provider on this specific booking
+    const providerControls = !b.isSent && isActive ? `
+        ${b.status === 'pending' ? `<button onclick="updateStatus('${b.id}', 'confirmed')" class="px-3 py-1.5 bg-primary text-on-primary rounded-lg text-label-md font-label-md">Confirmar</button>` : ''}
+        ${b.status === 'confirmed' ? `<button onclick="updateStatus('${b.id}', 'in_progress')" class="px-3 py-1.5 bg-primary text-on-primary rounded-lg text-label-md font-label-md">Iniciar</button>` : ''}
+        ${b.status === 'in_progress' ? `<button onclick="updateStatus('${b.id}', 'completed')" class="px-3 py-1.5 bg-primary text-on-primary rounded-lg text-label-md font-label-md">Completar</button>` : ''}
+    ` : '';
+
+    const cancelButton = isActive ? `<button onclick="updateStatus('${b.id}', 'cancelled')" class="px-3 py-1.5 bg-surface-container-low text-on-surface rounded-lg text-label-md font-label-md">Cancelar</button>` : '';
+
+    const deleteButton = isFinished ? `<button onclick="deleteBooking('${b.id}')" class="px-3 py-1.5 text-error hover:bg-error-container rounded-lg text-label-md font-label-md flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">delete</span>Eliminar</button>` : '';
+
+    const actionsRow = (providerControls || cancelButton || deleteButton) ? `
+        <div class="flex gap-2 mt-3 flex-wrap">
+            ${providerControls}
+            ${cancelButton}
+            ${deleteButton}
+        </div>` : '';
+
+    const reviewSection = (b.status === 'completed' && b.isSent) ? (
+        b.myReview ? `
+            <div class="mt-4 pt-4 border-t border-outline-variant">
+                <p class="font-label-md text-label-md text-on-surface-variant mb-1">Tu reseña:</p>
+                <div class="flex items-center gap-1 mb-1">${renderStars(b.myReview.rating)}</div>
+                ${b.myReview.comment ? `<p class="font-body-sm text-on-surface-variant">${b.myReview.comment}</p>` : ''}
+                <button onclick="deleteReview('${b.myReview.id}')" class="text-error text-label-sm font-label-sm hover:underline mt-1">Eliminar reseña</button>
             </div>
-            <div class="text-on-surface-variant font-body-sm space-y-1 mt-3">
-                <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">event</span>${dateStr}</div>
-                <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">location_on</span>${b.address}</div>
-                ${b.notes ? `<div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">notes</span>${b.notes}</div>` : ''}
+        ` : `
+            <div class="mt-4 pt-4 border-t border-outline-variant">
+                <button onclick="openReviewModal('${b.id}', '${b.providerName}')" class="w-full py-2.5 bg-secondary-container text-on-secondary-container rounded-xl font-label-lg text-label-lg hover:brightness-95 transition-all">Dejar reseña</button>
             </div>
-            <div class="flex justify-between items-center mt-4 pt-4 border-t border-outline-variant">
-                <span class="font-bold text-primary">$${b.total_price} MXN</span>
-                ${statusControls}
+        `
+    ) : '';
+
+    return `
+    <div class="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/30">
+        <div class="flex justify-between items-start mb-2">
+            <div>
+                <h3 class="font-headline-sm text-headline-sm text-on-surface">${b.serviceName}</h3>
+                <p class="text-on-surface-variant font-body-sm">${b.isSent ? 'con' : 'de'} ${b.providerName}</p>
             </div>
-        </div>`;
-    }).join('');
+            <span class="px-3 py-1 rounded-full text-label-sm font-label-sm ${STATUS_COLORS[b.status] || ''}">${STATUS_LABELS[b.status] || b.status}</span>
+        </div>
+        <div class="text-on-surface-variant font-body-sm space-y-1 mt-3">
+            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">event</span>${dateStr}</div>
+            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">location_on</span>${b.address}</div>
+            ${b.notes ? `<div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">notes</span>${b.notes}</div>` : ''}
+        </div>
+        <div class="flex justify-between items-center mt-4 pt-4 border-t border-outline-variant">
+            <span class="font-bold text-primary">$${b.total_price} MXN</span>
+            ${actionsRow}
+        </div>
+        ${reviewSection}
+    </div>`;
+}
+
+async function deleteBooking(bookingId) {
+    if (!confirm('¿Eliminar esta reserva de tu historial? Esta acción no se puede deshacer.')) return;
+    try {
+        const res = await fetch(`${API_BASE}/bookings/${bookingId}`, {
+            method: 'DELETE',
+            headers: authHeader()
+        });
+        if (!res.ok) {
+            const data = await res.json();
+            throw new Error(data.error || 'Error al eliminar la reserva');
+        }
+        loadBookings();
+    } catch (err) {
+        alert(err.message);
+    }
 }
 
 async function updateStatus(bookingId, status) {
@@ -251,6 +361,89 @@ async function updateStatus(bookingId, status) {
         if (!res.ok) {
             const data = await res.json();
             throw new Error(data.error || 'Error al actualizar la reserva');
+        }
+        loadBookings();
+    } catch (err) {
+        alert(err.message);
+    }
+}
+
+function renderStars(rating) {
+    let stars = '';
+    for (let i = 1; i <= 5; i++) {
+        stars += `<span class="material-symbols-outlined text-[18px] ${i <= rating ? 'text-[#FFB703]' : 'text-outline-variant'}" style="font-variation-settings: 'FILL' 1;">star</span>`;
+    }
+    return stars;
+}
+
+let currentReviewBookingId = null;
+let currentReviewRating = 0;
+
+function openReviewModal(bookingId, providerName) {
+    currentReviewBookingId = bookingId;
+    currentReviewRating = 0;
+    document.getElementById('review-provider-name').textContent = providerName;
+    document.getElementById('review-comment').value = '';
+    updateStarPicker(0);
+    document.getElementById('review-error').classList.add('hidden');
+    document.getElementById('review-modal').classList.remove('hidden');
+    document.getElementById('review-modal').classList.add('flex');
+}
+
+function closeReviewModal() {
+    document.getElementById('review-modal').classList.add('hidden');
+    document.getElementById('review-modal').classList.remove('flex');
+}
+
+function updateStarPicker(rating) {
+    currentReviewRating = rating;
+    document.querySelectorAll('.star-picker-btn').forEach((btn, i) => {
+        btn.querySelector('span').classList.toggle('text-[#FFB703]', i < rating);
+        btn.querySelector('span').classList.toggle('text-outline-variant', i >= rating);
+    });
+}
+
+async function submitReview() {
+    const errorBox = document.getElementById('review-error');
+    errorBox.classList.add('hidden');
+
+    if (currentReviewRating === 0) {
+        errorBox.textContent = 'Selecciona una calificación.';
+        errorBox.classList.remove('hidden');
+        return;
+    }
+
+    try {
+        const res = await fetch(`${API_BASE}/reviews/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', ...authHeader() },
+            body: JSON.stringify({
+                booking_id: currentReviewBookingId,
+                rating: currentReviewRating,
+                comment: document.getElementById('review-comment').value
+            })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Error al enviar la reseña');
+
+        closeReviewModal();
+        loadBookings();
+    } catch (err) {
+        errorBox.textContent = err.message;
+        errorBox.classList.remove('hidden');
+    }
+}
+
+async function deleteReview(reviewId) {
+    if (!confirm('¿Eliminar tu reseña?')) return;
+    try {
+        const res = await fetch(`${API_BASE}/reviews/${reviewId}`, {
+            method: 'DELETE',
+            headers: authHeader()
+        });
+        if (!res.ok) {
+            const data = await res.json();
+            throw new Error(data.error || 'Error al eliminar la reseña');
         }
         loadBookings();
     } catch (err) {
