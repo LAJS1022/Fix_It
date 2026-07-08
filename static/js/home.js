@@ -45,7 +45,7 @@ document.querySelectorAll('.category-pill').forEach(btn => {
 // Populate "Populares cerca de ti" with top-rated nearby providers
 function renderPopularCard(p) {
     return `
-        <div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0px_4px_20px_rgba(0,109,119,0.05)] border border-outline-variant/30 hover:-translate-y-1 transition-all duration-300 group">
+        <div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0px_4px_20px_rgba(0,109,119,0.05)] border border-outline-variant/30 hover:-translate-y-1 transition-all duration-300 group cursor-pointer" onclick="location.href='provider.html?id=${p.id}'">
             <div class="relative h-48">
                 <img alt="${p.name}" class="w-full h-full object-cover" src="${p.photo_url || 'https://placehold.co/400x300'}"/>
                 <div class="absolute top-3 right-3 bg-white/90 backdrop-blur px-2 py-1 rounded-lg flex items-center gap-1 shadow-sm">
@@ -67,8 +67,8 @@ function renderPopularCard(p) {
                         </span>
                         <span class="font-bold text-primary">$${p.price_min ?? '--'} - $${p.price_max ?? '--'} MXN/hr</span>
                     </div>
-                    <button class="w-full py-3 bg-primary-container text-on-primary-container rounded-xl font-label-lg text-label-lg hover:brightness-90 transition-all active:scale-[0.98]" onclick="location.href='search.html'">
-                        Reservar ahora
+                    <button class="w-full py-3 bg-primary-container text-on-primary-container rounded-xl font-label-lg text-label-lg hover:brightness-90 transition-all active:scale-[0.98] pointer-events-none">
+                        Ver perfil
                     </button>
                 </div>
             </div>

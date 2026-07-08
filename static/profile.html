@@ -4,6 +4,8 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Fix It - Mi Perfil</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -215,6 +217,40 @@ Cerrar sesión
 </form>
 </div>
 
+<!-- Services management -->
+<div id="services-section" class="hidden bg-surface-container-lowest rounded-2xl shadow-[0px_4px_20px_rgba(0,109,119,0.08)] p-8">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-6">Mis servicios</h2>
+<div id="services-error" class="hidden bg-error-container text-on-error-container rounded-lg p-3 mb-4 font-body-sm"></div>
+<div id="services-list" class="space-y-3 mb-6"></div>
+
+<form id="service-form" class="space-y-4 border-t border-outline-variant pt-6">
+<h3 class="font-label-lg text-label-lg text-on-surface-variant">Agregar nuevo servicio</h3>
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant block mb-1">Categoría</label>
+<select id="service-category" required class="w-full px-4 py-3 bg-surface-container-low rounded-xl border-none focus:ring-2 focus:ring-primary font-body-md"></select>
+</div>
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant block mb-1">Nombre del servicio</label>
+<input id="service-name" type="text" required placeholder="Ej. Reparación de fugas" class="w-full px-4 py-3 bg-surface-container-low rounded-xl border-none focus:ring-2 focus:ring-primary font-body-md"/>
+</div>
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant block mb-1">Descripción (opcional)</label>
+<textarea id="service-description" rows="2" class="w-full px-4 py-3 bg-surface-container-low rounded-xl border-none focus:ring-2 focus:ring-primary font-body-md"></textarea>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant block mb-1">Precio (MXN)</label>
+<input id="service-price" type="number" min="0" required class="w-full px-4 py-3 bg-surface-container-low rounded-xl border-none focus:ring-2 focus:ring-primary font-body-md"/>
+</div>
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant block mb-1">Duración aprox. (min)</label>
+<input id="service-duration" type="number" min="0" class="w-full px-4 py-3 bg-surface-container-low rounded-xl border-none focus:ring-2 focus:ring-primary font-body-md"/>
+</div>
+</div>
+<button type="submit" id="service-submit-btn" class="w-full py-3 bg-secondary text-on-secondary rounded-xl font-label-lg text-label-lg hover:brightness-110 transition-all active:scale-[0.98]">Agregar servicio</button>
+</form>
+</div>
+
 <!-- CTA if user has no provider profile yet -->
 <div id="become-provider-cta" class="hidden bg-secondary-container/40 border border-secondary-container rounded-2xl p-6 text-center">
 <p class="font-body-md text-on-surface-variant mb-4">¿Quieres ofrecer tus servicios en Fix It?</p>
@@ -223,6 +259,20 @@ Cerrar sesión
 
 </div>
 </main>
+
+<!-- Crop modal -->
+<div id="crop-modal" class="hidden fixed inset-0 z-[200] bg-black/60 flex items-center justify-center p-4">
+<div class="bg-surface-container-lowest rounded-2xl p-6 w-full max-w-md">
+<h2 class="font-headline-sm text-headline-sm mb-4">Ajusta tu foto</h2>
+<div class="w-full h-80 bg-surface-container-low rounded-xl overflow-hidden">
+<img id="crop-image" class="max-w-full block" src=""/>
+</div>
+<div class="flex gap-3 mt-6">
+<button type="button" id="crop-cancel-btn" class="flex-1 py-3 bg-surface-container-low text-on-surface rounded-xl font-label-lg text-label-lg hover:bg-surface-container-high transition-colors">Cancelar</button>
+<button type="button" id="crop-confirm-btn" class="flex-1 py-3 bg-primary text-on-primary rounded-xl font-label-lg text-label-lg hover:brightness-110 transition-all active:scale-[0.98]">Usar esta foto</button>
+</div>
+</div>
+</div>
 <script src="js/auth.js"></script>
 <script>
 if (!isLoggedIn()) {
@@ -261,6 +311,7 @@ async function loadProfile() {
 
     if (currentProvider) {
         document.getElementById('provider-section').classList.remove('hidden');
+        document.getElementById('services-section').classList.remove('hidden');
         document.getElementById('bio').value = currentProvider.bio || '';
         document.getElementById('experience_years').value = currentProvider.experience_years || '';
         document.getElementById('service_zone').value = currentProvider.service_zone || '';
@@ -268,11 +319,103 @@ async function loadProfile() {
         document.getElementById('price_max').value = currentProvider.price_max || '';
         document.getElementById('provider-rating').innerHTML =
             `<span class="material-symbols-outlined text-[#FFB703] text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span> ${currentProvider.avg_rating.toFixed(1)} (${currentProvider.review_count})`;
+        loadCategories();
+        loadMyServices();
     } else {
         document.getElementById('become-provider-cta').classList.remove('hidden');
     }
 }
 loadProfile();
+
+async function loadCategories() {
+    try {
+        const res = await fetch(`${API_BASE}/categories/`);
+        const categories = await res.json();
+        document.getElementById('service-category').innerHTML =
+            categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+    } catch (err) {
+        console.error('Could not load categories', err);
+    }
+}
+
+async function loadMyServices() {
+    const listEl = document.getElementById('services-list');
+    try {
+        const res = await fetch(`${API_BASE}/services/`);
+        const allServices = await res.json();
+        const myServices = allServices.filter(s => s.provider_id === currentProvider.id);
+
+        if (!myServices.length) {
+            listEl.innerHTML = '<p class="text-on-surface-variant font-body-sm">Aún no tienes servicios. Agrega el primero abajo.</p>';
+            return;
+        }
+
+        listEl.innerHTML = myServices.map(s => `
+            <div class="flex justify-between items-center bg-surface-container-low rounded-xl px-4 py-3">
+                <div>
+                    <p class="font-label-lg text-label-lg text-on-surface">${s.name}</p>
+                    <p class="text-on-surface-variant font-body-sm">$${s.price} MXN${s.duration_min ? ' · ' + s.duration_min + ' min' : ''}</p>
+                </div>
+                <button onclick="deleteService('${s.id}')" class="text-error hover:bg-error-container rounded-lg p-2 transition-colors">
+                    <span class="material-symbols-outlined text-[20px]">delete</span>
+                </button>
+            </div>
+        `).join('');
+    } catch (err) {
+        listEl.innerHTML = '<p class="text-error font-body-sm">No se pudieron cargar tus servicios.</p>';
+    }
+}
+
+document.getElementById('service-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const errorBox = document.getElementById('services-error');
+    const btn = document.getElementById('service-submit-btn');
+    errorBox.classList.add('hidden');
+    btn.disabled = true;
+    btn.textContent = 'Agregando...';
+
+    try {
+        const res = await fetch(`${API_BASE}/services/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', ...authHeader() },
+            body: JSON.stringify({
+                category_id: document.getElementById('service-category').value,
+                name: document.getElementById('service-name').value,
+                description: document.getElementById('service-description').value,
+                price: parseFloat(document.getElementById('service-price').value),
+                duration_min: parseInt(document.getElementById('service-duration').value) || null
+            })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Error al agregar el servicio');
+
+        document.getElementById('service-form').reset();
+        loadMyServices();
+    } catch (err) {
+        errorBox.textContent = err.message;
+        errorBox.classList.remove('hidden');
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'Agregar servicio';
+    }
+});
+
+async function deleteService(serviceId) {
+    if (!confirm('¿Eliminar este servicio?')) return;
+    try {
+        const res = await fetch(`${API_BASE}/services/${serviceId}`, {
+            method: 'DELETE',
+            headers: authHeader()
+        });
+        if (!res.ok) {
+            const data = await res.json();
+            throw new Error(data.error || 'Error al eliminar el servicio');
+        }
+        loadMyServices();
+    } catch (err) {
+        alert(err.message);
+    }
+}
 
 document.getElementById('info-form').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -310,45 +453,53 @@ document.getElementById('info-form').addEventListener('submit', async (e) => {
     }
 });
 
-function compressImage(file, maxDimension = 800, quality = 0.8) {
-    return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.onload = () => {
-            let { width, height } = img;
-            if (width > height && width > maxDimension) {
-                height = Math.round(height * (maxDimension / width));
-                width = maxDimension;
-            } else if (height > maxDimension) {
-                width = Math.round(width * (maxDimension / height));
-                height = maxDimension;
-            }
-            const canvas = document.createElement('canvas');
-            canvas.width = width;
-            canvas.height = height;
-            canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-            canvas.toBlob(blob => {
-                if (blob) resolve(blob);
-                else reject(new Error('No se pudo procesar la imagen'));
-            }, 'image/jpeg', quality);
-        };
-        img.onerror = () => reject(new Error('No se pudo leer la imagen'));
-        img.src = URL.createObjectURL(file);
-    });
-}
+let cropper = null;
 
-document.getElementById('avatar_file').addEventListener('change', async (e) => {
+document.getElementById('avatar_file').addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
+    const cropImage = document.getElementById('crop-image');
+    cropImage.src = URL.createObjectURL(file);
+
+    document.getElementById('crop-modal').classList.remove('hidden');
+    document.getElementById('crop-modal').classList.add('flex');
+
+    if (cropper) cropper.destroy();
+    cropper = new Cropper(cropImage, {
+        aspectRatio: 1,
+        viewMode: 1,
+        dragMode: 'move',
+        autoCropArea: 1,
+        background: false,
+        cropBoxMovable: true,
+        cropBoxResizable: true
+    });
+
+    // reset the input so selecting the same file again still fires 'change'
+    e.target.value = '';
+});
+
+document.getElementById('crop-cancel-btn').addEventListener('click', () => {
+    document.getElementById('crop-modal').classList.add('hidden');
+    document.getElementById('crop-modal').classList.remove('flex');
+    if (cropper) { cropper.destroy(); cropper = null; }
+});
+
+document.getElementById('crop-confirm-btn').addEventListener('click', async () => {
+    if (!cropper) return;
     const status = document.getElementById('avatar-upload-status');
-    status.textContent = 'Procesando imagen...';
+    const confirmBtn = document.getElementById('crop-confirm-btn');
+    confirmBtn.disabled = true;
+    confirmBtn.textContent = 'Subiendo...';
 
     try {
-        const compressed = await compressImage(file);
-        status.textContent = 'Subiendo...';
+        const canvas = cropper.getCroppedCanvas({ width: 500, height: 500 });
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.85));
+        if (!blob) throw new Error('No se pudo procesar la imagen');
 
         const formData = new FormData();
-        formData.append('image', compressed, 'avatar.jpg');
+        formData.append('image', blob, 'avatar.jpg');
 
         const res = await fetch(`${API_BASE}/users/${currentUser.id}/avatar`, {
             method: 'POST',
@@ -368,8 +519,16 @@ document.getElementById('avatar_file').addEventListener('change', async (e) => {
         document.getElementById('avatar-preview').classList.remove('hidden');
         document.getElementById('avatar-fallback').classList.add('hidden');
         status.textContent = 'Foto actualizada ✓';
+
+        document.getElementById('crop-modal').classList.add('hidden');
+        document.getElementById('crop-modal').classList.remove('flex');
+        cropper.destroy();
+        cropper = null;
     } catch (err) {
         status.textContent = err.message;
+    } finally {
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = 'Usar esta foto';
     }
 });
 

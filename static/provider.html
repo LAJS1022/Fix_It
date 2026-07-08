@@ -160,7 +160,7 @@
 <div class="text-center sm:text-right">
 <span class="text-label-sm text-on-surface-variant uppercase tracking-wider block">Desde</span>
 <span class="font-bold text-primary text-headline-sm" id="provider-price"></span>
-<button class="w-full mt-3 py-3 px-6 bg-primary text-on-primary rounded-xl font-label-lg text-label-lg hover:brightness-110 transition-all active:scale-[0.98]" onclick="alert('La función de reservas estará disponible próximamente.')">Reservar ahora</button>
+<button id="book-now-btn" class="w-full mt-3 py-3 px-6 bg-primary text-on-primary rounded-xl font-label-lg text-label-lg hover:brightness-110 transition-all active:scale-[0.98]">Reservar ahora</button>
 </div>
 </div>
 </div>
@@ -184,6 +184,37 @@
 
 </div>
 </main>
+
+<!-- Booking modal -->
+<div id="booking-modal" class="hidden fixed inset-0 z-[200] bg-black/60 items-center justify-center p-4">
+<div class="bg-surface-container-lowest rounded-2xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+<h2 class="font-headline-sm text-headline-sm mb-4">Reservar servicio</h2>
+<div id="booking-error" class="hidden bg-error-container text-on-error-container rounded-lg p-3 mb-4 font-body-sm"></div>
+<div id="booking-success" class="hidden bg-secondary-container text-on-secondary-container rounded-lg p-3 mb-4 font-body-sm"></div>
+<form id="booking-form" class="space-y-4">
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant block mb-1">Servicio</label>
+<select id="booking-service" required class="w-full px-4 py-3 bg-surface-container-low rounded-xl border-none focus:ring-2 focus:ring-primary font-body-md"></select>
+</div>
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant block mb-1">Fecha y hora</label>
+<input id="booking-date" type="datetime-local" required class="w-full px-4 py-3 bg-surface-container-low rounded-xl border-none focus:ring-2 focus:ring-primary font-body-md"/>
+</div>
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant block mb-1">Dirección</label>
+<input id="booking-address" type="text" required placeholder="Calle, número, colonia" class="w-full px-4 py-3 bg-surface-container-low rounded-xl border-none focus:ring-2 focus:ring-primary font-body-md"/>
+</div>
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant block mb-1">Notas (opcional)</label>
+<textarea id="booking-notes" rows="2" placeholder="Detalles adicionales..." class="w-full px-4 py-3 bg-surface-container-low rounded-xl border-none focus:ring-2 focus:ring-primary font-body-md"></textarea>
+</div>
+<div class="flex gap-3 pt-2">
+<button type="button" id="booking-cancel-btn" class="flex-1 py-3 bg-surface-container-low text-on-surface rounded-xl font-label-lg text-label-lg hover:bg-surface-container-high transition-colors">Cancelar</button>
+<button type="submit" id="booking-submit-btn" class="flex-1 py-3 bg-primary text-on-primary rounded-xl font-label-lg text-label-lg hover:brightness-110 transition-all active:scale-[0.98]">Confirmar reserva</button>
+</div>
+</form>
+</div>
+</div>
 <script src="js/auth.js"></script>
 <script>
 const providerId = new URLSearchParams(window.location.search).get('id');
@@ -281,5 +312,80 @@ async function loadReviews() {
 }
 
 loadProviderProfile();
+
+// --- Booking flow ---
+
+async function loadServicesForBooking() {
+    try {
+        const res = await fetch(`${API_BASE}/services/`);
+        const allServices = await res.json();
+        const providerServices = allServices.filter(s => s.provider_id === providerId);
+
+        const select = document.getElementById('booking-service');
+        if (!providerServices.length) {
+            select.innerHTML = '<option value="">Este profesional no tiene servicios configurados</option>';
+            return;
+        }
+        select.innerHTML = providerServices.map(s =>
+            `<option value="${s.id}" data-price="${s.price}">${s.name} - $${s.price} MXN</option>`
+        ).join('');
+    } catch (err) {
+        console.error('Could not load services', err);
+    }
+}
+
+document.getElementById('book-now-btn').addEventListener('click', () => {
+    if (!isLoggedIn()) {
+        window.location.href = `login.html?next=provider.html?id=${providerId}`;
+        return;
+    }
+    document.getElementById('booking-modal').classList.remove('hidden');
+    document.getElementById('booking-modal').classList.add('flex');
+    loadServicesForBooking();
+});
+
+document.getElementById('booking-cancel-btn').addEventListener('click', () => {
+    document.getElementById('booking-modal').classList.add('hidden');
+    document.getElementById('booking-modal').classList.remove('flex');
+});
+
+document.getElementById('booking-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const errorBox = document.getElementById('booking-error');
+    const successBox = document.getElementById('booking-success');
+    const btn = document.getElementById('booking-submit-btn');
+    errorBox.classList.add('hidden');
+    successBox.classList.add('hidden');
+    btn.disabled = true;
+    btn.textContent = 'Reservando...';
+
+    try {
+        const res = await fetch(`${API_BASE}/bookings/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', ...authHeader() },
+            body: JSON.stringify({
+                provider_id: providerId,
+                service_id: document.getElementById('booking-service').value,
+                date: document.getElementById('booking-date').value,
+                address: document.getElementById('booking-address').value,
+                notes: document.getElementById('booking-notes').value
+            })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Error al crear la reserva');
+
+        successBox.textContent = '¡Reserva creada! Puedes verla en Mis Reservas.';
+        successBox.classList.remove('hidden');
+        btn.textContent = 'Ver mis reservas';
+        btn.type = 'button';
+        btn.disabled = false;
+        btn.onclick = () => window.location.href = 'bookings.html';
+    } catch (err) {
+        errorBox.textContent = err.message;
+        errorBox.classList.remove('hidden');
+        btn.disabled = false;
+        btn.textContent = 'Confirmar reserva';
+    }
+});
 </script>
 </body></html>

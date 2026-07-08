@@ -103,15 +103,23 @@ class BookingStatus(Resource):
 
         provider = Provider.query.filter_by(user_id=current_user_id).first()
         is_provider = provider and booking.provider_id == provider.id
-
-        if not is_provider and not claims.get('is_admin'):
-            return {'error': 'Unauthorized'}, 403
+        is_client = booking.client_id == current_user_id
+        is_admin = claims.get('is_admin')
 
         data = request.json
-        if data['status'] not in VALID_STATUSES:
+        new_status = data.get('status')
+
+        if new_status not in VALID_STATUSES:
             return {'error': 'Invalid status'}, 400
 
-        booking.status = data['status']
+        if is_client and not is_provider and not is_admin:
+            # Clients may only cancel their own booking, nothing else
+            if new_status != 'cancelled':
+                return {'error': 'Clients can only cancel a booking'}, 403
+        elif not is_provider and not is_admin:
+            return {'error': 'Unauthorized'}, 403
+
+        booking.status = new_status
         booking.update()
 
         send_notification(
