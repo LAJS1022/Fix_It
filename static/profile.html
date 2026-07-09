@@ -213,6 +213,16 @@ Cerrar sesión
 <input id="price_max" type="number" min="0" class="w-full px-4 py-3 bg-surface-container-low rounded-xl border-none focus:ring-2 focus:ring-primary font-body-md"/>
 </div>
 </div>
+<div>
+<div class="flex justify-between items-center mb-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Ubicación para búsquedas cercanas</label>
+<span id="location-status" class="font-body-sm text-on-surface-variant"></span>
+</div>
+<button type="button" id="use-location-btn" class="w-full flex items-center justify-center gap-2 py-3 bg-secondary-container text-on-secondary-container rounded-xl font-label-lg text-label-lg hover:brightness-95 transition-all">
+<span class="material-symbols-outlined">near_me</span>
+<span>Usar mi ubicación actual</span>
+</button>
+</div>
 <button type="submit" id="provider-submit-btn" class="w-full py-3 bg-primary text-on-primary rounded-xl font-label-lg text-label-lg hover:brightness-110 transition-all active:scale-[0.98]">Guardar perfil profesional</button>
 </form>
 </div>
@@ -281,6 +291,8 @@ if (!isLoggedIn()) {
 
 let currentUser = null;
 let currentProvider = null;
+let currentLat = null;
+let currentLng = null;
 
 async function loadProfile() {
     const res = await fetch(`${API_BASE}/auth/me`, { headers: authHeader() });
@@ -316,6 +328,11 @@ async function loadProfile() {
         document.getElementById('experience_years').value = currentProvider.experience_years || '';
         document.getElementById('service_zone').value = currentProvider.service_zone || '';
         document.getElementById('price_min').value = currentProvider.price_min || '';
+
+        currentLat = currentProvider.latitude;
+        currentLng = currentProvider.longitude;
+        document.getElementById('location-status').textContent =
+            (currentLat && currentLng) ? 'Ubicación configurada ✓' : 'Sin ubicación — no aparecerás en búsquedas por cercanía';
         document.getElementById('price_max').value = currentProvider.price_max || '';
         document.getElementById('provider-rating').innerHTML =
             `<span class="material-symbols-outlined text-[#FFB703] text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span> ${currentProvider.avg_rating.toFixed(1)} (${currentProvider.review_count})`;
@@ -532,6 +549,19 @@ document.getElementById('crop-confirm-btn').addEventListener('click', async () =
     }
 });
 
+document.getElementById('use-location-btn').addEventListener('click', () => {
+    const status = document.getElementById('location-status');
+    status.textContent = 'Obteniendo ubicación...';
+    navigator.geolocation.getCurrentPosition(
+        pos => {
+            currentLat = pos.coords.latitude;
+            currentLng = pos.coords.longitude;
+            status.textContent = 'Ubicación actualizada ✓ (guarda para confirmar)';
+        },
+        () => { status.textContent = 'No se pudo obtener tu ubicación'; }
+    );
+});
+
 document.getElementById('provider-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const errorBox = document.getElementById('provider-error');
@@ -551,7 +581,9 @@ document.getElementById('provider-form').addEventListener('submit', async (e) =>
                 experience_years: parseInt(document.getElementById('experience_years').value) || null,
                 service_zone: document.getElementById('service_zone').value,
                 price_min: parseFloat(document.getElementById('price_min').value) || null,
-                price_max: parseFloat(document.getElementById('price_max').value) || null
+                price_max: parseFloat(document.getElementById('price_max').value) || null,
+                latitude: currentLat,
+                longitude: currentLng
             })
         });
         const data = await res.json();

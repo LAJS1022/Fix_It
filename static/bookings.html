@@ -238,13 +238,14 @@ async function loadBookings() {
         return;
     }
 
-    // Enrich each booking with provider name, service name, and existing review (if any)
+    // Enrich each booking with provider name, service name, client name, and existing review (if any)
     const allReviews = await fetchJson(`${API_BASE}/reviews/`) || [];
 
     const enriched = await Promise.all(bookings.map(async b => {
-        const [provider, service] = await Promise.all([
+        const [provider, service, client] = await Promise.all([
             fetchJson(`${API_BASE}/providers/${b.provider_id}`),
-            fetchJson(`${API_BASE}/services/${b.service_id}`)
+            fetchJson(`${API_BASE}/services/${b.service_id}`),
+            fetchJson(`${API_BASE}/users/${b.client_id}`)
         ]);
         const myReview = allReviews.find(r => r.booking_id === b.id);
         // Per-booking, not per-role: a user can be both a client and a provider,
@@ -255,6 +256,7 @@ async function loadBookings() {
             ...b,
             providerName: provider?.name || 'Profesional',
             serviceName: service?.name || 'Servicio',
+            clientName: client ? `${client.first_name} ${client.last_name}` : 'Cliente',
             myReview,
             isSent
         };
@@ -317,7 +319,7 @@ function renderBookingCard(b) {
         <div class="flex justify-between items-start mb-2">
             <div>
                 <h3 class="font-headline-sm text-headline-sm text-on-surface">${b.serviceName}</h3>
-                <p class="text-on-surface-variant font-body-sm">${b.isSent ? 'con' : 'de'} ${b.providerName}</p>
+                <p class="text-on-surface-variant font-body-sm">${b.isSent ? 'con ' + b.providerName : 'de ' + b.clientName}</p>
             </div>
             <span class="px-3 py-1 rounded-full text-label-sm font-label-sm ${STATUS_COLORS[b.status] || ''}">${STATUS_LABELS[b.status] || b.status}</span>
         </div>
