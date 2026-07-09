@@ -67,4 +67,19 @@ class AdminBookingList(Resource):
 
         bookings = Booking.query.all()
         return [b.to_dict() for b in bookings], 200
-    
+
+@ns.route('/config-check')
+class AdminConfigCheck(Resource):
+    @jwt_required()
+    def get(self):
+        if not admin_required():
+            return {'error': 'Admin access required'}, 403
+
+        from flask import current_app
+        return {
+            'cloudinary_cloud_name_set': bool(current_app.config.get('CLOUDINARY_CLOUD_NAME')),
+            'cloudinary_api_key_set': bool(current_app.config.get('CLOUDINARY_API_KEY')),
+            'cloudinary_api_secret_set': bool(current_app.config.get('CLOUDINARY_API_SECRET')),
+            'jwt_secret_is_default': current_app.config.get('JWT_SECRET_KEY') == 'jwt-secret-key',
+            'secret_key_is_default': current_app.config.get('SECRET_KEY') == 'dev-secret-key',
+        }, 200
